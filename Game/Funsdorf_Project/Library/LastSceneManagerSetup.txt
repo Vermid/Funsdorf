@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scenes/TestScene1_Zaim.unity
+  isLoaded: 1
+  isActive: 1
