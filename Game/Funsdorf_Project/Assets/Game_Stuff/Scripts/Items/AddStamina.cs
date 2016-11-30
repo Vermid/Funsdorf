@@ -20,7 +20,7 @@ public class AddStamina : MonoBehaviour
     {
         if (col.gameObject.tag == MyConst.player)
         {
-            playerController.IncreaseStamina(stamina);
+            playerController.StaminaControl(stamina);
             Destroy(gameObject);
         }
     }
