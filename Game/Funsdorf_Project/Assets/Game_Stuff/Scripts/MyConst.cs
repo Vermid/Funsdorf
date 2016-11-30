@@ -7,4 +7,7 @@ public class MyConst
     public static string player = "Player";
 
     //Function Names
+
+    public static string StopME = "StopME";
+
 }
