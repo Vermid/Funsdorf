@@ -11,22 +11,22 @@ public class PlayerController : MonoBehaviour
     public float startMovementSpeed = 3;
     public float stamina = 10;
     public float runSpeed = 5;
-    public bool running = false;
-    public bool canWeSprint = true;
 
+    private bool running = false;
+    private bool canWeSprint = true;
     private float diagonalRunSpeed;
     private float maxStamina;
     private float maxMovementSpeed;
     private float diagonalSpeed;
-    public float moveHorizontal;
-    public float moveVertical;
+    private float moveHorizontal;
+    private float moveVertical;
+    private bool disableMovement = false;
 
     private GameObject player;
     private Rigidbody2D rgb2;
-    private Quaternion NewRot;
 
 
-    // Use this for initialization
+
     void Start()
     {
         player = gameObject;
@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
         maxMovementSpeed = startMovementSpeed;
         diagonalSpeed = maxMovementSpeed - 1.5F;
         diagonalRunSpeed = runSpeed - 1.5F;
-        // diagonalRunSpeed = (runSpeed / 4) + runSpeed / 2; why this?
         maxStamina = stamina;
     }
 
@@ -55,38 +54,35 @@ public class PlayerController : MonoBehaviour
         moveHorizontal = Input.GetAxisRaw("Horizontal");
         //Positive oder Negative Axis wird gespeichert von dem Vertical input //GetAxisRaw -1 or 1
         moveVertical = Input.GetAxisRaw("Vertical");
-        //MAUSVERFOLGUNG UND ROTATION//
 
-        #region QUARTER DIRECTION
-        if (moveHorizontal < 0) ;
-        //setAnim   left
-        if (moveHorizontal > 0) ;
-        //setAnim   right
-        if (moveVertical < 0) ;
-        //setAnim   up
-        if (moveVertical > 0) ;
-        //setAnim   down   
+        #region Anim DIRECTION
+        int deleteMeWhenAnimIsSet = 0;
+        if (deleteMeWhenAnimIsSet == 0)
+            deleteMeWhenAnimIsSet = 2;
+
+        if (moveHorizontal < 0)
+            deleteMeWhenAnimIsSet = 1; //setAnim   left
+        if (moveHorizontal > 0) 
+        deleteMeWhenAnimIsSet = 1; //setAnim   right
+        if (moveVertical < 0) 
+        deleteMeWhenAnimIsSet = 1; //setAnim   up
+        if (moveVertical > 0) 
+        deleteMeWhenAnimIsSet = 1;//setAnim   down   
+
+        if (moveHorizontal < 0 && moveVertical < 0) 
+        deleteMeWhenAnimIsSet = 1; //setAnim RightUp
+        if (moveHorizontal < 0 && moveVertical > 0) 
+        deleteMeWhenAnimIsSet = 1;//setAnim LeftUp
+        if (moveHorizontal > 0 && moveVertical < 0) 
+        deleteMeWhenAnimIsSet = 1;//setAnim RightDown
+        if (moveHorizontal > 0 && moveVertical > 0) 
+        deleteMeWhenAnimIsSet = 1;//setAnim LeftDown
         #endregion
 
-        if (moveHorizontal < 0 && moveVertical < 0) ;
-        //setAnim RightUp
-        if (moveHorizontal < 0 && moveVertical > 0) ;
-        //setAnim LeftUp
-        if (moveHorizontal > 0 && moveVertical < 0) ;
-        //setAnim RightDown
-        if (moveHorizontal > 0 && moveVertical > 0) ;
-        //setAnim LeftDown
-
-
-        //die rotation vom Spieler wird auf NewRot Gesetzt;
-        player.transform.rotation = NewRot;
-        //Die EulerischenAngles werden auch richtig gesetzt sonst würde die Rotation ins 3D gehen
-        player.transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-
-        PlayerRun();
+        PlayerRun(disableMovement);
     }
 
-    void PlayerRun()
+    void PlayerRun(bool disableMove)
     {
         if (moveHorizontal != 0 && moveVertical != 0)
         {
@@ -112,9 +108,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         else
-        {
             running = false;
-        }
 
         if (running == false)
         {
@@ -130,18 +124,53 @@ public class PlayerController : MonoBehaviour
                 stamina = maxStamina;
             }
         }
+
         //Velocity zu Rigidbody vom Spieler 
-        rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, rgb2.velocity.y);
-        rgb2.velocity = new Vector2(rgb2.velocity.x, moveVertical * startMovementSpeed);
+        if (!disableMove)
+            rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, moveVertical * startMovementSpeed);
+        else
+        {
+            if (moveHorizontal != 0)
+                rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, 0);
+            else
+                rgb2.velocity = new Vector2(0, moveVertical * startMovementSpeed);
+
+            if (moveVertical != 0)
+                rgb2.velocity = new Vector2(0, moveVertical * startMovementSpeed);
+            else
+                rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, 0);
+        }
+
+        /* Ice World  Player sclide
+            if (moveHorizontal != 0)
+                rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, 0);
+            if (moveVertical != 0)
+                rgb2.velocity = new Vector2(0, moveVertical * startMovementSpeed);
+            else
+            Invoke(MyConst.FreezeMovement,2);
+         */
     }
 
-    public void IncreaseStamina(float sta)
+    private void FreezeMovement()
     {
-        maxStamina += sta;
+        rgb2.velocity = new Vector2(0, 0);
+
+    }
+    public void SlowMovement(float speed)
+    {
+        startMovementSpeed = speed;
     }
 
-    public void DecreaseStamina(float sta)
+    public void SetNormalMovement()
     {
-        maxStamina -= sta;
+        startMovementSpeed = maxMovementSpeed;
     }
-}
+
+    public void StaminaControl(float sta)
+    {
+        if (sta > 0)
+            maxStamina += sta;
+        if (sta < 0)
+            maxStamina -= sta;
+    }
+} 
