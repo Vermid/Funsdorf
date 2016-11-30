@@ -8,6 +8,13 @@ public class MyConst
 
     //Function Names
 
+    //FLo
     public static string StopME = "StopME";
+
+
+    //Zaim
+    public static string FreezeMovement = "FreezeMovement";
+    public static string GetDamage = "GetDamage";
+    public static string SetSpawn = "SetSpawn";
 
 }
