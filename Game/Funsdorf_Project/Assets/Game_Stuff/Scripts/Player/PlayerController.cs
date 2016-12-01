@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rgb2 = this.GetComponent<Rigidbody2D>();
-        healthController = GameObject.FindGameObjectWithTag(MyConst.player).GetComponent<HealthController>();
+        healthController = GameObject.FindGameObjectWithTag(MyConst.Player).GetComponent<HealthController>();
 
         SetStartVariables();
     }

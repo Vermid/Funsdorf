@@ -4,7 +4,10 @@ using System.Collections;
 public class MyConst
 {
     //Tags
-    public static string player = "Player";
+    public static string Player = "Player";
+    public static string PlayerBody = "PlayerBody";
+
+    
 
     //Function Names
 
