@@ -12,9 +12,9 @@ public class KI_HealthController : MonoBehaviour
         healthController = GameObject.FindGameObjectWithTag(MyConst.player).GetComponent<HealthController>();
     }
 
-    public void Damage(float damge)
+    public void Damage(float dmg)
     {
-        health -= damage;
+        health -= dmg;
 
         if (health == 0)
             Destroy(gameObject);
@@ -22,7 +22,7 @@ public class KI_HealthController : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == MyConst.player)
+        if (col.collider.tag== MyConst.player)
             healthController.Damage(damage);
     }
 

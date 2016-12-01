@@ -21,16 +21,17 @@ public class PlayerController : MonoBehaviour
     private float moveHorizontal;
     private float moveVertical;
     private bool disableMovement = false;
-
-    private GameObject player;
+    private bool globalCoolDown = false;
+    //Objects
+    public Transform playerSpawnPoint;
     private Rigidbody2D rgb2;
-
-
+    private HealthController healthController;
 
     void Start()
     {
-        player = gameObject;
-        rgb2 = player.GetComponent<Rigidbody2D>();
+        rgb2 = this.GetComponent<Rigidbody2D>();
+        healthController = GameObject.FindGameObjectWithTag(MyConst.player).GetComponent<HealthController>();
+
         SetStartVariables();
     }
 
@@ -45,8 +46,42 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         PlayerMovement();
+        PlayerAction();
+        PlayerAttack();
+    }
+    
+    void PlayerAction()
+    {
+        //insert potion and actionButton here
+        if (Input.GetButton("Potion"))
+        {
+            if (!globalCoolDown)
+            {
+                bool healthfilled = false;
+                healthfilled =  healthController.AddHealth();
+                if (healthfilled)
+                {
+                    globalCoolDown = !globalCoolDown;
+                    Invoke(MyConst.Cooldown, 10);
+                }
+            }
+        }
+        //if (Input.GetButton("Action"))
     }
 
+    void Cooldown()
+    {
+        globalCoolDown = !globalCoolDown;
+    }
+    void PlayerAttack()
+    {
+        //Insert Attack Prime,Special 1 and Special 2
+        //if (Input.GetButton("Attack"))
+        //Swing melee weapon and shot woth bow or Staff
+        //if (Input.GetButton("Special1"))
+        //if (Input.GetButton("Special2"))
+
+    }
     void PlayerMovement()
     {
         ////MOVEMENT////
@@ -166,6 +201,10 @@ public class PlayerController : MonoBehaviour
         startMovementSpeed = maxMovementSpeed;
     }
 
+    public void PlayerSpawn()
+    {
+        transform.position = playerSpawnPoint.position;
+    }
     public void StaminaControl(float sta)
     {
         if (sta > 0)

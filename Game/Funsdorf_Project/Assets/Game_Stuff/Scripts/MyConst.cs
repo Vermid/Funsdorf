@@ -16,5 +16,8 @@ public class MyConst
     public static string FreezeMovement = "FreezeMovement";
     public static string GetDamage = "GetDamage";
     public static string SetSpawn = "SetSpawn";
+    public static string Cooldown = "Cooldown";
+
+    
 
 }
