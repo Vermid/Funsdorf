@@ -19,14 +19,30 @@ public class HealthController : MonoBehaviour
 
     private bool damageAble = true;
 
+    public bool dot = false;
     public Transform playerSpawnPoint;
     PlayerController playerController;
 
     void Start ()
     {
         GetStartValues();
-       // playerController = GameObject.FindGameObjectWithTag(MyConst.player).GetComponent<PlayerController>();
         playerController = transform.parent.gameObject.GetComponent<PlayerController>();
+    }
+
+    void FixedUpdate()
+    {
+        float dmg = (Time.deltaTime / 8);
+
+        if (dot)
+            Damage(dmg);
+    }
+
+    public void damageOverTime(bool burn)
+    {
+        burn = !burn;
+
+        this.dot = burn;
+        Invoke(MyConst.Cooldown, 5);
     }
 
     void GetStartValues()
@@ -40,7 +56,8 @@ public class HealthController : MonoBehaviour
         if (damageAble)
         {
             //SetAnimHit
-            damageAble = false;
+            if(!dot)
+                damageAble = false;
             Dying(damage);
             Invoke(MyConst.GetDamage, 0.5F);
 
@@ -66,6 +83,7 @@ public class HealthController : MonoBehaviour
     {
         potion += pot;
     }
+
     public bool AddHealth()
     {
         if (potion >= 1 && health != startHealth)
@@ -90,13 +108,20 @@ public class HealthController : MonoBehaviour
     {
         health -= damage;
     }
+
     void SetSpawn()
     {
         playerController.enabled = true;
         playerController.PlayerSpawn();
     }
+
     void GetDamage()
     {
         damageAble = true;
+    }
+
+    void Cooldown()
+    {
+        dot = !dot;
     }
 }
