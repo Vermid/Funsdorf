@@ -11,6 +11,8 @@ public class HealthController : MonoBehaviour
     public float health = 10;
     private float startHealth;
 
+    public int orbs = 0;
+
     public float lifePoints = 5;
     private float startLifePoints;
 
@@ -23,7 +25,7 @@ public class HealthController : MonoBehaviour
     public Transform playerSpawnPoint;
     PlayerController playerController;
 
-    void Start ()
+    void Start()
     {
         GetStartValues();
         playerController = transform.parent.gameObject.GetComponent<PlayerController>();
@@ -35,6 +37,20 @@ public class HealthController : MonoBehaviour
 
         if (dot)
             Damage(dmg);
+    }
+
+    void Update()
+    {
+        if (orbs >= 100)
+        {
+            health++;
+            orbs = 0;
+        }
+    }
+
+    public void SetOrbs(int orbs)
+    {
+        this.orbs += orbs;
     }
 
     public void damageOverTime(bool burn)
@@ -56,7 +72,7 @@ public class HealthController : MonoBehaviour
         if (damageAble)
         {
             //SetAnimHit
-            if(!dot)
+            if (!dot)
                 damageAble = false;
             Dying(damage);
             Invoke(MyConst.GetDamage, 0.5F);
@@ -71,11 +87,11 @@ public class HealthController : MonoBehaviour
                 Invoke(MyConst.SetSpawn, 2);
             }
         }
-        if(lifePoints == 0)
+        if (lifePoints == 0)
         {
             //SetAnimDead
             playerController.enabled = false;
-            lifePoints = startLifePoints; 
+            lifePoints = startLifePoints;
         }
     }
 
