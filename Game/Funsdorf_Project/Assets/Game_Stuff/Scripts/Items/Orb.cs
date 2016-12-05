@@ -3,26 +3,46 @@ using System.Collections;
 
 public class Orb : MonoBehaviour
 {
-    public float destroyTimer = 200;
+    public float destroyTimer = 5;
     private HealthController healthController;
     private Animator anim;
+    private bool death = false;
     // Use this for initialization
     void Start()
     {
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
-        Invoke(MyConst.Cooldown, destroyTimer);
 
         anim = GetComponent<Animator>();
-        anim.SetBool("Spin",true);
-        Invoke("Stop", 3);
+        anim.SetTrigger("Spawn");
+        Invoke("Spin", 1);
+        Invoke(MyConst.Cooldown, 5);
     }
 
+    void Update()
+    {
+        if(death)
+            StartCoroutine("Wait");
+
+    }
     void Cooldown()
     {
+        death = true;
+    }
+    IEnumerator Wait()
+    {
+        death = false;
+        anim.SetTrigger("Death");
+        yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
 
-    public void Stop()
+    void Spin()
+    {
+        anim.SetBool("Spin", true);
+        Invoke("Stop", 3);
+    }
+
+    void Stop()
     {
         anim.SetBool("Spin", false);
     }
