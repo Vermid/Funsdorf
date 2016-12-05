@@ -18,6 +18,7 @@ public class EnemyMovementController : MonoBehaviour {
     //private Vector2 minWalkPoint;
     //private Vector2 maxWalkPoint;
     //private bool hasWalkZone;
+    // hallo
 
 	void Start () {
 
