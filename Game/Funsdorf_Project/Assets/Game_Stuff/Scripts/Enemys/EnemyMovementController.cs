@@ -112,4 +112,10 @@ public class EnemyMovementController : MonoBehaviour {
         myRigidbody.velocity = Vector2.zero;
     }
 
+
+    void xy()
+    {
+
+    }
 }
+
