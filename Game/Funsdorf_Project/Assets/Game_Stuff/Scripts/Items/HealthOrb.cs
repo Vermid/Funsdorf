@@ -37,6 +37,8 @@ public class HealthOrb : MonoBehaviour
             int waitTime = Random.Range(0, 5);     
             int x = Random.Range(-10, 10);
             int y = Random.Range(-10, 10);
+            int z =Random.Range(0, 5);
+            z = (z >= 2) ? 1 : -1;
 
             GameObject orbClone = (GameObject)Instantiate(spawn, transform.position, Quaternion.identity);
             orbClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(x, y) * Random.Range(0, moveSpeed));
