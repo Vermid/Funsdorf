@@ -33,7 +33,8 @@ public class Orb : MonoBehaviour
         death = false;
         anim.SetTrigger("Death");
         yield return new WaitForSeconds(1);
-        Destroy(gameObject);
+        if(gameObject != null)
+            Destroy(gameObject);
     }
 
     void Spin()
