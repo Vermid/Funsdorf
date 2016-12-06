@@ -88,7 +88,7 @@ using System.Collections;
         else if (nRNGPercentage <= 100)
         {
             armorSlot = 4; //Hands
-            namePrefix = namePrefix + " Gloves";
+            namePrefix += " Gloves";
             armorValue = Random.Range(3, 7) + nEntityLevel;
         }
 
