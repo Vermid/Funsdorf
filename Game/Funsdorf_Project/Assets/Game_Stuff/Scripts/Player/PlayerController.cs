@@ -210,10 +210,6 @@ public class PlayerController : MonoBehaviour
             // transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 
             #region Anim WASD DIRECTION
-            Debug.Log(gameObject.transform.position.x);
-
-            Debug.Log(mousePos.y);
-            Debug.Log(mousePos.x+"x");
 
             if (mousePos.x > (gameObject.transform.position.y + 7.7F) && mousePos.x < (gameObject.transform.position.y + 9F) && mousePos.y > gameObject.transform.position.y)
             {
