@@ -55,6 +55,7 @@ public class HealthOrb : MonoBehaviour
     IEnumerator Wait(GameObject orbClone, int waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        orbClone.GetComponent<Rigidbody2D>().velocity = Vector2.zero; //some error pops up sometime no idea what ? :D
+        if(orbClone != null)
+            orbClone.GetComponent<Rigidbody2D>().velocity = Vector2.zero; //some error pops up sometime no idea what ? :D
     }
 }

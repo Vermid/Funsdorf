@@ -10,7 +10,7 @@ public class Potion : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-         healthController = GameObject.FindGameObjectWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
+         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
     }
 
    void OnTriggerEnter2D(Collider2D other)

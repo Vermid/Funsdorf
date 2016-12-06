@@ -22,7 +22,6 @@ public class HealthController : MonoBehaviour
     private bool damageAble = true;
 
     public bool dot = false;
-    public Transform playerSpawnPoint;
     PlayerController playerController;
 
     void Start()
