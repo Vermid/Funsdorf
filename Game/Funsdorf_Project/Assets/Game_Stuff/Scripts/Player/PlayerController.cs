@@ -26,11 +26,19 @@ public class PlayerController : MonoBehaviour
     public Transform playerSpawnPoint;
     private Rigidbody2D rgb2;
     private HealthController healthController;
+    private PlayAnimation playAnimation;
+
+    private Animator anim;
+
+    public float rotationSpeed = 450;
+    private bool moving;
 
     void Start()
     {
         rgb2 = this.GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
+        playAnimation = GetComponentInChildren<PlayAnimation>();
+        anim = GetComponent<Animator>();
 
         SetStartVariables();
     }
@@ -95,14 +103,14 @@ public class PlayerController : MonoBehaviour
         if (deleteMeWhenAnimIsSet == 0)
             deleteMeWhenAnimIsSet = 2;
 
-        if (moveHorizontal < 0)
-            deleteMeWhenAnimIsSet = 1; //setAnim   left
-        if (moveHorizontal > 0) 
-        deleteMeWhenAnimIsSet = 1; //setAnim   right
-        if (moveVertical < 0) 
-        deleteMeWhenAnimIsSet = 1; //setAnim   up
-        if (moveVertical > 0) 
-        deleteMeWhenAnimIsSet = 1;//setAnim   down   
+        //if (moveHorizontal < 0)
+        //    anim.SetTrigger("Left");
+        //if (moveHorizontal > 0)
+        //    anim.SetTrigger("Right");
+        //if (moveVertical > 0)
+        //    anim.SetTrigger("Up");
+        //if (moveVertical < 0)
+        //    anim.SetTrigger("Down");
 
         if (moveHorizontal < 0 && moveVertical < 0) 
         deleteMeWhenAnimIsSet = 1; //setAnim RightUp
@@ -121,6 +129,7 @@ public class PlayerController : MonoBehaviour
     {
         if (moveHorizontal != 0 && moveVertical != 0)
         {
+            moving = true;
             if (Input.GetButton("Run"))
                 startMovementSpeed = diagonalRunSpeed;
             else
@@ -184,13 +193,69 @@ public class PlayerController : MonoBehaviour
             else
             Invoke(MyConst.FreezeMovement,2);
          */
+        if (moveHorizontal == 0 && moveVertical == 0)
+            moving = !moving;
+
+            if (!moving)
+        {
+            float x = gameObject.transform.position.x;
+            float y = gameObject.transform.position.y;
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+
+            //need this for Fire Rain
+            //gameObject.transform.position = mousePos;
+
+            //targetRotation = Quaternion.LookRotation(mousePos);
+            // transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
+
+            #region Anim WASD DIRECTION
+            Debug.Log(gameObject.transform.position.x);
+
+            Debug.Log(mousePos.y);
+            Debug.Log(mousePos.x+"x");
+
+            if (mousePos.x > (gameObject.transform.position.y + 7.7F) && mousePos.x < (gameObject.transform.position.y + 9F) && mousePos.y > gameObject.transform.position.y)
+            {
+                Debug.DrawRay(transform.position, Vector2.up, Color.green);
+                playAnimation.Up();//
+            }
+
+            if (mousePos.x > (gameObject.transform.position.y + 7.7F) && mousePos.x < (gameObject.transform.position.y + 9F) && mousePos.y < gameObject.transform.position.y)
+            {
+                Debug.DrawRay(transform.position, Vector2.down, Color.blue);
+                playAnimation.Down();// anim.SetTrigger("Right");
+            }
+            if (mousePos.y > (gameObject.transform.position.x -9F)&& mousePos.y < (gameObject.transform.position.x - 7.7F) && mousePos.x < gameObject.transform.position.x)
+            {
+                Debug.DrawRay(transform.position, Vector2.left, Color.red);
+                playAnimation.Left();// anim.SetTrigger("Up");
+            }
+
+            if (mousePos.y > (gameObject.transform.position.x - 9F) && mousePos.y < (gameObject.transform.position.x - 7.7F) && mousePos.x > gameObject.transform.position.x)
+            {
+                Debug.DrawRay(transform.position, Vector2.right, Color.black);
+                playAnimation.Right();// anim.SetTrigger("Down");
+            }
+
+            //if (mousePos.x < (x + 1.5F) && mousePos.y < (y - 1.5F))
+            //    anim.SetTrigger("LeftDown");
+            //if (mousePos.x < (x + 1.5F) && mousePos.y > (y + 1.5F))
+            //    anim.SetTrigger("LeftUp");
+            //if (mousePos.x > (x - 1.5F) && mousePos.y < (y - 1.5F))
+            //    anim.SetTrigger("RightDown");
+            //if (mousePos.x > (x - 1.5F) && mousePos.y > (y + 1.5F))
+            //    anim.SetTrigger("RightUp");
+            #endregion
+        }
+
     }
 
     private void FreezeMovement()
     {
         rgb2.velocity = new Vector2(0, 0);
-
     }
+
     public void SlowMovement(float speed)
     {
         startMovementSpeed = speed;
@@ -205,6 +270,7 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = playerSpawnPoint.position;
     }
+
     public void StaminaControl(float sta)
     {
         if (sta > 0)
