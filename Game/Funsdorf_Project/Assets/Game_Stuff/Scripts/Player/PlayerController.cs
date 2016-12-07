@@ -194,9 +194,6 @@ public class PlayerController : MonoBehaviour
             Invoke(MyConst.FreezeMovement,2);
          */
         if (moveHorizontal == 0 && moveVertical == 0)
-            moving = !moving;
-
-            if (!moving)
         {
             float x = gameObject.transform.position.x;
             float y = gameObject.transform.position.y;
@@ -205,43 +202,52 @@ public class PlayerController : MonoBehaviour
 
             //need this for Fire Rain
             //gameObject.transform.position = mousePos;
-
             //targetRotation = Quaternion.LookRotation(mousePos);
             // transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 
             #region Anim WASD DIRECTION
+            //Debug.DrawRay(transform.position, Vector3.forward, Color.red);
 
-            if (mousePos.x > (gameObject.transform.position.y + 7.7F) && mousePos.x < (gameObject.transform.position.y + 9F) && mousePos.y > gameObject.transform.position.y)
+            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y < gameObject.transform.position.y)
             {
-                Debug.DrawRay(transform.position, Vector2.up, Color.green);
-                playAnimation.Up();//
+                playAnimation.Down();
             }
 
-            if (mousePos.x > (gameObject.transform.position.y + 7.7F) && mousePos.x < (gameObject.transform.position.y + 9F) && mousePos.y < gameObject.transform.position.y)
+            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y > gameObject.transform.position.y)
             {
-                Debug.DrawRay(transform.position, Vector2.down, Color.blue);
-                playAnimation.Down();// anim.SetTrigger("Right");
-            }
-            if (mousePos.y > (gameObject.transform.position.x -9F)&& mousePos.y < (gameObject.transform.position.x - 7.7F) && mousePos.x < gameObject.transform.position.x)
-            {
-                Debug.DrawRay(transform.position, Vector2.left, Color.red);
-                playAnimation.Left();// anim.SetTrigger("Up");
+                playAnimation.Up();
             }
 
-            if (mousePos.y > (gameObject.transform.position.x - 9F) && mousePos.y < (gameObject.transform.position.x - 7.7F) && mousePos.x > gameObject.transform.position.x)
+            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x < gameObject.transform.position.x)
             {
-                Debug.DrawRay(transform.position, Vector2.right, Color.black);
-                playAnimation.Right();// anim.SetTrigger("Down");
+                playAnimation.Left();
             }
 
-            //if (mousePos.x < (x + 1.5F) && mousePos.y < (y - 1.5F))
-            //    anim.SetTrigger("LeftDown");
-            //if (mousePos.x < (x + 1.5F) && mousePos.y > (y + 1.5F))
-            //    anim.SetTrigger("LeftUp");
-            //if (mousePos.x > (x - 1.5F) && mousePos.y < (y - 1.5F))
-            //    anim.SetTrigger("RightDown");
-            //if (mousePos.x > (x - 1.5F) && mousePos.y > (y + 1.5F))
-            //    anim.SetTrigger("RightUp");
+            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x > gameObject.transform.position.x)
+            {
+                playAnimation.Right();
+            }
+
+            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
+            {
+                playAnimation.RightUp();// RightUP
+            }
+
+            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
+            {
+                playAnimation.RightDown();// RightDown
+            }
+
+            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
+            {
+                playAnimation.LeftUp();// LeftUp
+            }
+
+            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
+            {
+                playAnimation.LeftDown();// LeftDown
+            }
+
             #endregion
         }
 

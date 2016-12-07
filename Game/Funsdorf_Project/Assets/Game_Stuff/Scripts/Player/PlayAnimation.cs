@@ -32,4 +32,25 @@ public class PlayAnimation : MonoBehaviour
     {
         anim.SetTrigger("Down");
     }
+
+    public void LeftUp()
+    {
+        anim.SetTrigger("LeftUp");
+    }
+
+    public void RightUp()
+    {
+        anim.SetTrigger("RightUp");
+    }
+
+    public void LeftDown()
+    {
+        anim.SetTrigger("LeftDown");
+    }
+
+    public void RightDown()
+    {
+        anim.SetTrigger("RightDown");
+    }
+
 }
