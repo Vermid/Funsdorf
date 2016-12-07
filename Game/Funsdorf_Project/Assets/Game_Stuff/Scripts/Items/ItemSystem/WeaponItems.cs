@@ -30,7 +30,7 @@ class WeaponItems : ItemStructure
     //END OF CONSTRUCTORS//
 
     //CREATE FUNCTIONS//
-    void CreateRandomWeapon(int nEntityLevel, int nMobLevel)
+    public void CreateRandomWeapon(int nEntityLevel)
     {
         int nRNGPercentage;
         string namePrefix;
