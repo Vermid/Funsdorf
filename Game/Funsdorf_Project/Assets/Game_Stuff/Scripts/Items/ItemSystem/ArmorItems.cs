@@ -26,7 +26,7 @@ using System.Collections;
     //END OF CONSTRUCTORS//
 
     //CREATE FUNCTIONS//
-    void CreateRandomArmor(int nEntityLevel, int nMobLevel )
+    public void CreateRandomArmor(int nEntityLevel )
     {
         int nRNGPercentage;
         string namePrefix;
