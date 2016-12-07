@@ -25,7 +25,7 @@ public class EnemyLiving : MonoBehaviour
 	
     void OnTriggerEnter2D (Collider2D other)
     {
-        if(other.tag == MyConst.Player)
+        if(other.tag == MyConst.PlayerBody)
         {
 
             KI.ChangeMe();
@@ -39,7 +39,7 @@ public class EnemyLiving : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == MyConst.Player)
+        if (other.tag == MyConst.PlayerBody)
         {
             KI.ChangeMe();
             //other.gameObject.SendMessage("ChangeMe", SendMessageOptions.DontRequireReceiver);
