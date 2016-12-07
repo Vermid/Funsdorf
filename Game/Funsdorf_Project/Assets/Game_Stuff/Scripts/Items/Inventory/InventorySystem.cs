@@ -12,6 +12,7 @@ class InventorySystem : MonoBehaviour
     {
         ArrayList a = new ArrayList();
         a.Add(randomitem);
+        //blsaldlasdl
     }
 }
 
