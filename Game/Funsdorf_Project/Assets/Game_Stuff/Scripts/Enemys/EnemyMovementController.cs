@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/*
+* log //184
+*/
 public class EnemyMovementController : MonoBehaviour {
 
     public float moveSpeed;
@@ -92,7 +96,6 @@ public class EnemyMovementController : MonoBehaviour {
         z2 = Random.Range(-1, 1);
         x = Random.Range(0, 10);
         y = Random.Range(0, 10);
-        Debug.Log(z);
         if (z == 0)
         {
             z = 1;

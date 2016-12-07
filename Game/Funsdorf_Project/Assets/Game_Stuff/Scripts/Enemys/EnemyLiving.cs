@@ -18,20 +18,17 @@ public class EnemyLiving : MonoBehaviour
         StartPosX = transform.position.x;
         StartPosY = transform.position.y;
         rgb = gameObject.GetComponent<Rigidbody2D>();
-        //KI = transform.parent.GetComponent<EnemyMovementController>();
+        //KI = transform.parent.GetComponent<EnemyMovementController>();   Need for Hirachie
         KI = transform.GetComponentInChildren<EnemyMovementController>();
         Debug.Log(rgb);
 	}
 	
     void OnTriggerEnter2D (Collider2D other)
     {
-        if(other.tag == MyConst.Player)
+        if(other.tag == MyConst.PlayerBody)
         {
 
             KI.ChangeMe();
-            //other.gameObject.BroadcastMessage(MyConst.Coolldown, SendMessageOptions.DontRequireReceiver);
-            //EnemyMovementController enemy =  gameObject.GetComponent<EnemyMovementController>();
-            //other.gameObject.SendMessage("ChangeMe", SendMessageOptions.DontRequireReceiver);
 
 
         }
@@ -39,11 +36,9 @@ public class EnemyLiving : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == MyConst.Player)
+        if (other.tag == MyConst.PlayerBody)
         {
             KI.ChangeMe();
-            //other.gameObject.SendMessage("ChangeMe", SendMessageOptions.DontRequireReceiver);
-            //KI.SendMessage("ChangeMe", SendMessageOptions.DontRequireReceiver);
             if (RandomSpawn == false)
             {
                 KI.ReSpawn();
