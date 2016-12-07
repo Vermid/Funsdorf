@@ -28,17 +28,15 @@ public class PlayerController : MonoBehaviour
     private HealthController healthController;
     private PlayAnimation playAnimation;
 
-    private Animator anim;
 
     public float rotationSpeed = 450;
-    private bool moving;
+    private bool moving = true;
 
     void Start()
     {
         rgb2 = this.GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
         playAnimation = GetComponentInChildren<PlayAnimation>();
-        anim = GetComponent<Animator>();
 
         SetStartVariables();
     }
@@ -46,7 +44,7 @@ public class PlayerController : MonoBehaviour
     void SetStartVariables()
     {
         maxMovementSpeed = startMovementSpeed;
-        diagonalSpeed = maxMovementSpeed - 1.5F;
+        diagonalSpeed = maxMovementSpeed - 0.5F;
         diagonalRunSpeed = runSpeed - 1.5F;
         maxStamina = stamina;
     }
@@ -99,28 +97,75 @@ public class PlayerController : MonoBehaviour
         moveVertical = Input.GetAxisRaw("Vertical");
 
         #region Anim DIRECTION
-        int deleteMeWhenAnimIsSet = 0;
-        if (deleteMeWhenAnimIsSet == 0)
-            deleteMeWhenAnimIsSet = 2;
-
         //if (moveHorizontal < 0)
-        //    anim.SetTrigger("Left");
+        //    playAnimation.Left();
         //if (moveHorizontal > 0)
-        //    anim.SetTrigger("Right");
+        //    playAnimation.Right();
         //if (moveVertical > 0)
-        //    anim.SetTrigger("Up");
+        //    playAnimation.Up();
         //if (moveVertical < 0)
-        //    anim.SetTrigger("Down");
+        //    playAnimation.Down();
 
-        if (moveHorizontal < 0 && moveVertical < 0) 
-        deleteMeWhenAnimIsSet = 1; //setAnim RightUp
-        if (moveHorizontal < 0 && moveVertical > 0) 
-        deleteMeWhenAnimIsSet = 1;//setAnim LeftUp
-        if (moveHorizontal > 0 && moveVertical < 0) 
-        deleteMeWhenAnimIsSet = 1;//setAnim RightDown
-        if (moveHorizontal > 0 && moveVertical > 0) 
-        deleteMeWhenAnimIsSet = 1;//setAnim LeftDown
+        //if (moveHorizontal < 0 && moveVertical < 0)
+        //    playAnimation.RightUp();
+
+        //if (moveHorizontal < 0 && moveVertical > 0)
+        //    playAnimation.LeftUp();
+
+        //if (moveHorizontal > 0 && moveVertical < 0)
+        //    playAnimation.RightDown();
+
+        //if (moveHorizontal > 0 && moveVertical > 0)
+        //    playAnimation.LeftDown();
+
         #endregion
+
+        if (moveHorizontal != 0 || moveVertical != 0)
+        {
+            moving = true;
+        }
+        else
+            moving = !moving;
+
+        if (!moving)
+        {
+            #region Anim WASD DIRECTION
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+
+            //need this for Fire Rain
+            //gameObject.transform.position = mousePos;
+            //targetRotation = Quaternion.LookRotation(mousePos);
+            // transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
+
+            //Debug.DrawRay(transform.position, Vector3.forward, Color.red);
+
+            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y < gameObject.transform.position.y)
+                playAnimation.Down();
+
+            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y > gameObject.transform.position.y)
+                playAnimation.Up();
+
+            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x < gameObject.transform.position.x)
+                playAnimation.Left();
+
+            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x > gameObject.transform.position.x)
+                playAnimation.Right();
+
+            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
+                playAnimation.RightUp();
+
+            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
+                playAnimation.RightDown();
+
+            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
+                playAnimation.LeftUp();
+
+            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
+                playAnimation.LeftDown();
+            #endregion
+        }
 
         PlayerRun(disableMovement);
     }
@@ -129,7 +174,6 @@ public class PlayerController : MonoBehaviour
     {
         if (moveHorizontal != 0 && moveVertical != 0)
         {
-            moving = true;
             if (Input.GetButton("Run"))
                 startMovementSpeed = diagonalRunSpeed;
             else
@@ -193,63 +237,6 @@ public class PlayerController : MonoBehaviour
             else
             Invoke(MyConst.FreezeMovement,2);
          */
-        if (moveHorizontal == 0 && moveVertical == 0)
-        {
-            float x = gameObject.transform.position.x;
-            float y = gameObject.transform.position.y;
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-
-            //need this for Fire Rain
-            //gameObject.transform.position = mousePos;
-            //targetRotation = Quaternion.LookRotation(mousePos);
-            // transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
-
-            #region Anim WASD DIRECTION
-            //Debug.DrawRay(transform.position, Vector3.forward, Color.red);
-
-            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y < gameObject.transform.position.y)
-            {
-                playAnimation.Down();
-            }
-
-            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y > gameObject.transform.position.y)
-            {
-                playAnimation.Up();
-            }
-
-            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x < gameObject.transform.position.x)
-            {
-                playAnimation.Left();
-            }
-
-            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x > gameObject.transform.position.x)
-            {
-                playAnimation.Right();
-            }
-
-            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
-            {
-                playAnimation.RightUp();// RightUP
-            }
-
-            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
-            {
-                playAnimation.RightDown();// RightDown
-            }
-
-            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
-            {
-                playAnimation.LeftUp();// LeftUp
-            }
-
-            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
-            {
-                playAnimation.LeftDown();// LeftDown
-            }
-
-            #endregion
-        }
 
     }
 
