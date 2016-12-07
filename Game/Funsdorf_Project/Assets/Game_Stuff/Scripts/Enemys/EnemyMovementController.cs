@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/*
+* log //184
+*/
 public class EnemyMovementController : MonoBehaviour {
 
     public float moveSpeed;
@@ -14,19 +18,33 @@ public class EnemyMovementController : MonoBehaviour {
     public float timeToMove;
     private float timeToMoveCounter;
 
-    //public Collider2D walkZone;
-    //private Vector2 minWalkPoint;
-    //private Vector2 maxWalkPoint;
-    //private bool hasWalkZone;
+    public Collider2D walkZone;
+    private Vector2 minWalkPoint;
+    private Vector2 maxWalkPoint;
+    private bool hasWalkZone;
 
-	void Start () {
+    private bool Living;
 
-        //if (walkZone != null)
-        //{
-        //    minWalkPoint = walkZone.bounds.min;
-        //    maxWalkPoint = walkZone.bounds.max;
-        //    hasWalkZone = true;
-        //}
+    private bool Tracing;   //Verfolgen und angriff noch nicht fertig
+
+    private float StartPosX;
+    private float StartPosY;
+
+    public bool MultiSpawn; //Multible spawn, nicht fertig
+    public int EnemyCount;
+
+    void Start ()
+    {
+        StartPosX = transform.position.x;
+        StartPosY = transform.position.y;
+
+        if (walkZone != null)
+        {
+            minWalkPoint = walkZone.bounds.min;
+            maxWalkPoint = walkZone.bounds.max;
+            hasWalkZone = true;
+            SpawnEnemy();
+        }
 
         myRigidbody = GetComponent<Rigidbody2D>();
 
@@ -44,11 +62,27 @@ public class EnemyMovementController : MonoBehaviour {
 /*****************************************************************************************************************************************/
 
     void Update () {
-        timeBetweenMoveCounter -= Time.deltaTime;
-        bewegtsich = false;
 
-        bleibstehn();
+        //if (EnemyLivingArea && (gameObject.name == "Player"))
+        //{
+        //    Debug.Log("hallo");
+        //}
+        if (Living == true && Tracing == false)
+        {
+            WalkBack();
+            timeBetweenMoveCounter -= Time.deltaTime;
+            bewegtsich = false;
 
+            bleibstehn();
+        }
+        else if (Tracing == true)
+        {
+
+        }
+        else
+        {
+            myRigidbody.velocity = Vector2.zero;
+        }
     }
 
 /*****************************************************************************************************************************************/
@@ -62,7 +96,6 @@ public class EnemyMovementController : MonoBehaviour {
         z2 = Random.Range(-1, 1);
         x = Random.Range(0, 10);
         y = Random.Range(0, 10);
-        Debug.Log(z);
         if (z == 0)
         {
             z = 1;
@@ -85,13 +118,6 @@ public class EnemyMovementController : MonoBehaviour {
                 if (x > 5 && y > 5)
                 {
                     myRigidbody.velocity = new Vector2(z * moveSpeed, z2 * moveSpeed) / 2;
-
-                    //if(hasWalkZone && transform.position.y > maxWalkPoint.y)      Prüfung bevor er in movement springt, wenn auserhalb der hitbox führt exakte bewegung mit funktion zurück ins zentrum aus,
-                    //                                                              else normale bewegung
-                    //{                                                             Wenn limit erreicht stoppt movement mit myRigidbody.velocity = Vector2.zero, so kann bei neuem update zurück bewegt werden,
-                    //    myRigidbody.velocity = Vector2.zero;                      alles in 
-                    //}
-
                 }
                 else
                 { 
@@ -111,4 +137,51 @@ public class EnemyMovementController : MonoBehaviour {
         myRigidbody.velocity = Vector2.zero;
     }
 
+/*****************************************************************************************************************************************/
+
+    void WalkBack()
+    {
+        if (hasWalkZone && transform.position.y > maxWalkPoint.y)
+            myRigidbody.velocity = new Vector2(0, -1 * moveSpeed) / 2;
+        else if (hasWalkZone && transform.position.x > maxWalkPoint.x)
+            myRigidbody.velocity = new Vector2(-1 * moveSpeed, 0) / 2;
+        else if (hasWalkZone && transform.position.y < minWalkPoint.y)
+            myRigidbody.velocity = new Vector2(0, 1 * moveSpeed) / 2;
+        else if (hasWalkZone && transform.position.x < minWalkPoint.x)
+            myRigidbody.velocity = new Vector2(1 * moveSpeed, 0) / 2;
+    }
+
+    public void ChangeMe()
+    {
+        Living = !Living;
+        Debug.Log("hallo");
+    }
+
+    public void InSight()
+    {
+        Tracing = !Tracing;
+    }
+
+    public void ReSpawn()
+    {
+        myRigidbody.transform.position = new Vector2(StartPosX, StartPosY);
+    }
+
+    public void RandomSpawn()
+    {
+        if (hasWalkZone)
+        {
+            myRigidbody.transform.position = new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y));
+        }
+    }
+
+    public void SpawnEnemy()
+    {
+        while (EnemyCount > 0)
+        {
+            //Instantiate(this);
+            Debug.Log("funzt");
+            EnemyCount -= 1;
+        }
+    }
 }
