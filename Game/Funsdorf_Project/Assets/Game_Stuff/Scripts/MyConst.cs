@@ -6,8 +6,9 @@ public class MyConst
     //Tags
     public static string Player = "Player";
     public static string PlayerBody = "PlayerBody";
+    public static string Enemy = "Enemy";
 
-    
+
 
     //Function Names
 
