@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float startMovementSpeed = 3;
     public float stamina = 10;
     public float runSpeed = 5;
-
+    
     private bool running = false;
     private bool canWeSprint = true;
     private float diagonalRunSpeed;
