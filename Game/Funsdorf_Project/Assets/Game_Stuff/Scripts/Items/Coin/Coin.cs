@@ -1,59 +1,63 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Orb : MonoBehaviour
+public class Coin : MonoBehaviour
 {
     public float destroyTimer = 5;
-    private HealthController healthController;
+    private PlayerController playerController;
     private Animator anim;
     private bool death = false;
+    private bool idle = false;
     // Use this for initialization
     void Start()
     {
-        healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
+        playerController = GameObject.FindWithTag(MyConst.Player).GetComponent<PlayerController>();
 
         anim = GetComponent<Animator>();
         anim.SetTrigger("Spawn");
         Invoke("Spin", 1);
-        Invoke(MyConst.Cooldown, 5);
+        Invoke(MyConst.Cooldown, destroyTimer);
     }
 
     void Update()
     {
         if (death)
             StartCoroutine("Wait");
-
     }
+
     void Cooldown()
     {
         death = true;
     }
+
     IEnumerator Wait()
     {
         death = false;
-        anim.SetTrigger("Death");
-        yield return new WaitForSeconds(destroyTimer);
+        anim.SetTrigger("Destroy");
+        yield return new WaitForSeconds(1);
         if (gameObject != null)
             Destroy(gameObject);
     }
 
     void Spin()
     {
-        anim.SetBool("Spin", true);
-        Invoke("Stop", 3);
+        anim.SetBool("Idle", true);
+        Invoke("Stop", 10);
     }
 
     void Stop()
     {
-        anim.SetBool("Spin", false);
+        anim.SetBool("Idle", false);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == MyConst.PlayerBody)
         {
-            healthController.SetOrbs(1);
+            playerController.SetCoin(1);
             Destroy(gameObject);
         }
     }
 }
+
