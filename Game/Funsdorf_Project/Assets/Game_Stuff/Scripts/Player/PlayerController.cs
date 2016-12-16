@@ -28,9 +28,9 @@ public class PlayerController : MonoBehaviour
     private HealthController healthController;
     private PlayAnimation playAnimation;
 
-
     public float rotationSpeed = 450;
     private bool moving = true;
+    public int coin = 0;
 
     void Start()
     {
@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
     {
         globalCoolDown = !globalCoolDown;
     }
+
     void PlayerAttack()
     {
         //Insert Attack Prime,Special 1 and Special 2
@@ -86,8 +87,8 @@ public class PlayerController : MonoBehaviour
         //Swing melee weapon and shot woth bow or Staff
         //if (Input.GetButton("Special1"))
         //if (Input.GetButton("Special2"))
-
     }
+
     void PlayerMovement()
     {
         ////MOVEMENT////
@@ -266,5 +267,10 @@ public class PlayerController : MonoBehaviour
             maxStamina += sta;
         if (sta < 0)
             maxStamina -= sta;
+    }
+
+    public void SetCoin(int coin)
+    {
+       this.coin += coin;
     }
 } 
