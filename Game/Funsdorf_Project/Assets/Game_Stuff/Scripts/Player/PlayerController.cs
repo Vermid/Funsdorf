@@ -27,17 +27,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rgb2;
     private HealthController healthController;
     private PlayAnimation playAnimation;
+    public int camDistance = 3;
+    private MoveCamera cam;
+
 
     public float rotationSpeed = 450;
     private bool moving = true;
     public int coin = 0;
-
     void Start()
     {
         rgb2 = this.GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
         playAnimation = GetComponentInChildren<PlayAnimation>();
-
+        cam = GetComponentInChildren<MoveCamera>();//  GameObject.FindWithTag("MainCamera").GetComponent<MoveCamera>();
         SetStartVariables();
     }
 
@@ -52,11 +54,13 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         PlayerMovement();
-        PlayerAction();
+        UsePotion();
         PlayerAttack();
+        CameraMovement();
+        cam.Move_Camera();
     }
-    
-    void PlayerAction()
+
+    void UsePotion()
     {
         //insert potion and actionButton here
         if (Input.GetButton("Potion"))
@@ -171,6 +175,77 @@ public class PlayerController : MonoBehaviour
         PlayerRun(disableMovement);
     }
 
+
+    void CameraMovement()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+
+
+        //mousePos = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.transform.position.y - transform.position.y));
+        //targetRotation = Quaternion.LookRotation(mousePos - new Vector3(transform.position.x, 0, transform.position.z));
+        //transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
+        //cam.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2);
+
+        //Down
+        //if (mousePos.x < (gameObject.transform.position.x + 2) && mousePos.x > (gameObject.transform.position.x - 2) && mousePos.y < gameObject.transform.position.y)
+        //{
+        //    if (cam.transform.position.y < (gameObject.transform.position.y + 3))
+        //        cam.GetComponent<Rigidbody2D>().AddForce(Vector2.down * 2);
+        //}
+        ////Up
+        //else if (mousePos.x < (gameObject.transform.position.x + 2) && mousePos.x > (gameObject.transform.position.x - 2) && mousePos.y > gameObject.transform.position.y)
+        //{
+        //    Debug.Log("TURE"); if (cam.transform.position.y > (gameObject.transform.position.y + 3))
+        //        cam.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2);
+        //}
+        //Left
+        //else if (mousePos.y < (gameObject.transform.position.y + 2) && mousePos.y > (gameObject.transform.position.y - 2) && mousePos.x < gameObject.transform.position.x)
+        //    cam.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 2);
+        //Right
+        //else if (mousePos.y < (gameObject.transform.position.y + 2) && mousePos.y > (gameObject.transform.position.y - 2) && mousePos.x > gameObject.transform.position.x)
+        //    cam.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 2);
+
+
+        //    cam.GetComponent<Rigidbody2D>().AddForce(Vector2. * 2);
+
+        //Down
+        //if (mousePos.x < (gameObject.transform.position.x + 2) && mousePos.x > (gameObject.transform.position.x - 2) && mousePos.y < gameObject.transform.position.y)
+        //    cam.transform.position = new Vector3(gameObject.transform.position.x , (gameObject.transform.position.y - camDistance), -10);
+        ////Up
+        //else if (mousePos.x < (gameObject.transform.position.x + 2) && mousePos.x > (gameObject.transform.position.x - 2) && mousePos.y > gameObject.transform.position.y)
+        //    cam.transform.position = new Vector3(gameObject.transform.position.x , (gameObject.transform.position.y + camDistance), -10);
+        ////Left
+        //else if (mousePos.y < (gameObject.transform.position.y + 2) && mousePos.y > (gameObject.transform.position.y - 2) && mousePos.x < gameObject.transform.position.x)
+        //    cam.transform.position = new Vector3((gameObject.transform.position.x - camDistance), gameObject.transform.position.y, -10);
+        ////Right
+        //else if (mousePos.y < (gameObject.transform.position.y + 2) && mousePos.y > (gameObject.transform.position.y - 2) && mousePos.x > gameObject.transform.position.x)
+        //    cam.transform.position = new Vector3((gameObject.transform.position.x + camDistance), gameObject.transform.position.y , -10);
+
+        ////Cross
+        ////RightUp
+        //else if (mousePos.x > (gameObject.transform.position.x + 2) && mousePos.y > (gameObject.transform.position.y + 2))
+        //cam.transform.position = new Vector3((gameObject.transform.position.x + camDistance), (gameObject.transform.position.y + camDistance), -10);
+
+        ////RightUp
+        //else if (mousePos.x > (gameObject.transform.position.x + 2) && mousePos.y > (gameObject.transform.position.y + 2))
+        //    cam.transform.position = new Vector3((gameObject.transform.position.x + camDistance), (gameObject.transform.position.y + camDistance), -10);
+        ////RightDown
+        //else if (mousePos.x > (gameObject.transform.position.x + 2) && mousePos.y < (gameObject.transform.position.y - 2))
+        //    cam.transform.position = new Vector3((gameObject.transform.position.x + camDistance), (gameObject.transform.position.y - camDistance), -10);
+        ////LeftUp
+        //else if (mousePos.x < (gameObject.transform.position.x - 2) && mousePos.y > (gameObject.transform.position.y + 2))
+        //    cam.transform.position = new Vector3((gameObject.transform.position.x - camDistance), (gameObject.transform.position.y + camDistance), -10);
+        ////LeftDown
+        //else if (mousePos.x < (gameObject.transform.position.x - 2) && mousePos.y < (gameObject.transform.position.y - 2))
+        //    cam.transform.position = new Vector3((gameObject.transform.position.x - camDistance), (gameObject.transform.position.y - camDistance), -10);
+
+        //else
+        //    cam.transform.position = startMCam.po;
+
+
+    }
+
     void PlayerRun(bool disableMove)
     {
         if (moveHorizontal != 0 && moveVertical != 0)
@@ -241,7 +316,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void FreezeMovement()
+    void FreezeMovement()
     {
         rgb2.velocity = new Vector2(0, 0);
     }
@@ -273,4 +348,10 @@ public class PlayerController : MonoBehaviour
     {
        this.coin += coin;
     }
-} 
+
+    public int GetCoin( )
+    {
+        return coin ;
+    }
+
+}
