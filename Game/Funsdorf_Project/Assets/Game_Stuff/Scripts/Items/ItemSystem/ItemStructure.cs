@@ -16,21 +16,16 @@ public class ItemStructure
     {
         itemName = sItemName;
     }
-
     public string GetItemName() { return itemName; }
-
     public void SetItemRarity(int nRarity)
     {
         itemRarity = nRarity;
     }
-
     public int GetItemRarity() { return itemRarity; }
-
     public void SetItemType(int nItemType)
     {
         itemType = nItemType;
     }
-
     public int GetItemType() { return itemType; }
 }
 
