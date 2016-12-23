@@ -1,60 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-class ItemRandomizer : MonoBehaviour 
+class ItemRandomizer : MonoBehaviour
 {
-    ArmorItems randomArmor;
-    WeaponItems randomWeapon;
+    private ArmorItems randomArmor;
+    private WeaponItems randomWeapon;
+    private InventorySystem inventorySpace;
+    private GameObject player;
 
-    //calculation for the Dropchance 
-    //save in int to check what dropped and if something dropped
-    int RandomItemDropChance()
+    void Start()
     {
-        int Percentage = Random.Range(1, 101);
-
-        if(Percentage>=50 && Percentage<=60)
-        {
-            Percentage = Random.Range(1, 11);
-            if(Percentage >5)
-            {
-                return 1; //drop armor
-            }
-            else
-            {
-                return 2; //drop weapon
-            }
-        }
-        return 0; //no drop
+        player = GameObject.FindGameObjectWithTag("Player");
+        inventorySpace = player.GetComponent<InventorySystem>();
+        randomArmor = new ArmorItems();
+        randomWeapon = new WeaponItems();
     }
 
-    //creates the random item and after adds it to inventory
-    //*int droppedItem* is the Return from RandomItemDropChance()
-    void RandomItemCreator(int enemyLevel, int droppedItem)
+    void OnCollisionEnter2D(Collision2D coll)
     {
-        if(droppedItem == 1)
+        if (coll.gameObject.tag == "Player")
         {
-            
-            randomArmor.CreateRandomArmor(droppedItem);
-            AddArmorToInventory(randomArmor);
-            
+            RandomItemDropChance(10);
         }
-        else if(droppedItem == 2  )
+        Destroy(gameObject);
+    }
+
+    //calculation for the Dropchance of itemtype
+    void RandomItemDropChance(int enemyLevel)
+    {
+        int Percentage;
+
+        Percentage = Random.Range(1, 11);
+        if (Percentage > 5)
+        {
+            randomArmor.CreateRandomArmor(enemyLevel);
+            Debug.Log("Random Item was Successfully Created!");
+            inventorySpace.AddArmorToInventory(randomArmor);
+        }
+        else
         {
             randomWeapon.CreateRandomWeapon(enemyLevel);
-            AddWeaponToInventory(randomWeapon);
+            Debug.Log("Random Item was Successfully Created!");
+            inventorySpace.AddWeaponToInventory(randomWeapon);
         }
     }
 
-    void AddArmorToInventory(ArmorItems randomItem)
-    {
-        //Add functions for Inventory
-
-    }
-
-    void AddWeaponToInventory(WeaponItems randomItem)
-    {
-        //Add functions for Inventory
-    }
 
 }
 

@@ -104,7 +104,7 @@ public class EnemyMovementController : MonoBehaviour {
         {
             z2 = 1;
         }
-        Debug.Log(timeBetweenMoveCounter);
+        
         if (!bewegtsich)
         {
            
@@ -113,7 +113,7 @@ public class EnemyMovementController : MonoBehaviour {
             {
                 Invoke(MyConst.StopME, 5);
                 timeBetweenMoveCounter = 8;
-                Debug.Log(moving);
+                
                 timeToMoveCounter = timeToMove;
                 if (x > 5 && y > 5)
                 {

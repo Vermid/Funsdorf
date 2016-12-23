@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-class WeaponItems : ItemStructure
+public class WeaponItems : ItemStructure
 {
     private int weaponType; //Art von Waffe
     private float weaponAttackspeed; //Angriffsgeschwindigkeit
     private float weaponDamage;  //Schaden für die Waffe
 
     //CONSTRUCTORS//
-    WeaponItems()
+    public WeaponItems()
     {
         SetItemName("");
         SetItemRarity(0);
@@ -17,7 +17,7 @@ class WeaponItems : ItemStructure
         SetWeaponAttackspeed(0);
         SetWeaponDamage(0);
     }
-    WeaponItems(string sItemName, int nItemRarity, int nWeaponType, float fWeaponAttackspeed, float fWeaponDamage)
+    public WeaponItems(string sItemName, int nItemRarity, int nWeaponType, float fWeaponAttackspeed, float fWeaponDamage)
     {
         SetItemName(sItemName);
         SetItemRarity(nItemRarity);
@@ -27,10 +27,19 @@ class WeaponItems : ItemStructure
         SetWeaponDamage(fWeaponDamage);
 
     }
+    public WeaponItems(WeaponItems orig)
+    {
+        SetItemName(orig.GetItemName());
+        SetItemRarity(orig.GetItemRarity());
+        SetItemType(orig.GetItemType());
+        SetWeaponType(orig.GetWeaponType());
+        SetWeaponAttackspeed(orig.GetWeaponAttackspeed());
+        SetWeaponDamage(orig.GetWeaponDamage());
+    }
     //END OF CONSTRUCTORS//
 
     //CREATE FUNCTIONS//
-    public void CreateRandomWeapon(int nEntityLevel)
+    public WeaponItems CreateRandomWeapon(int nEntityLevel)
     {
         int nRNGPercentage;
         string namePrefix;
@@ -114,8 +123,10 @@ class WeaponItems : ItemStructure
             namePrefix = namePrefix + " Shield";
         }
 
+        Debug.Log("Random Weapon successfully created!");
         SetItemName(namePrefix);
 
+        return this;
     }
     //END OF CREATE FUNCTIONS//
 
@@ -124,21 +135,16 @@ class WeaponItems : ItemStructure
     {
         weaponType = nWeaponType;
     }
-
     int GetWeaponType() { return weaponType; }
-
     void SetWeaponAttackspeed(float fWeaponAttackspeed)
     {
         weaponAttackspeed = fWeaponAttackspeed;
     }
-
     float GetWeaponAttackspeed() { return weaponAttackspeed; }
-
     void SetWeaponDamage(float fWeaponDamage)
     {
         weaponDamage = fWeaponDamage;
     }
-
     float GetWeaponDamage() { return weaponDamage; }
     //END OF GET AND SET METHODS//
 }

@@ -5,6 +5,7 @@ public class KI_HealthController : MonoBehaviour
 {
     public float health = 2;
     private bool dead = false;
+    public GameObject lootbagSpawnObject;
 
     public void Damage(float dmg)
     {
@@ -29,6 +30,14 @@ public class KI_HealthController : MonoBehaviour
     }
     void Cooldown()
     {
+        int percentageDrop;
+
+        percentageDrop = Random.Range(1, 101);
+        Debug.Log(percentageDrop);
+        if (percentageDrop  >= 0)
+        {
+            Instantiate(lootbagSpawnObject, transform.position, Quaternion.identity);
+        }//Script !!
         Destroy(gameObject);
     }
 
