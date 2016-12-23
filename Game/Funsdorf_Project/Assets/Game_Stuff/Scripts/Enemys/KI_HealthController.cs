@@ -9,11 +9,11 @@ public class KI_HealthController : MonoBehaviour
     public void Damage(float dmg)
     {
         health -= dmg;
-
+        Debug.Log(health);
         if (health <= 0)
         {
             dead = true;
-            Invoke(MyConst.Cooldown, 5);
+            Invoke(MyConst.Cooldown, 1);
         }
     }
 
@@ -24,7 +24,7 @@ public class KI_HealthController : MonoBehaviour
         if (health <= 0)
         {
             dead = true;
-            Invoke(MyConst.Cooldown, 5);
+            Invoke(MyConst.Cooldown, 1);
         }
     }
     void Cooldown()
