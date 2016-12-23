@@ -7,7 +7,7 @@ using System.Collections;
     private float armorValue; // How much armor the Item has
 
     //CONSTRUCTORS//
-    public ArmorItems()
+    ArmorItems()
     {
         SetItemName("");
         SetItemRarity(0);
@@ -15,7 +15,7 @@ using System.Collections;
         SetArmorSlot(0);
         SetArmorValue(0);
     } //standard
-    public ArmorItems(string sItemName, int nItemRarity,int nArmorSlot, float fArmorValue)//Overloaded (without Itemtype parameter since its armor)
+    ArmorItems(string sItemName, int nItemRarity,int nArmorSlot, float fArmorValue)//Overloaded (without Itemtype parameter since its armor)
     {
         SetItemName(sItemName);
         SetItemRarity(nItemRarity);
@@ -23,18 +23,10 @@ using System.Collections;
         SetArmorSlot(nArmorSlot);
         SetArmorValue(fArmorValue);   
     }
-    public ArmorItems(ArmorItems orig)
-    {
-        SetItemName(orig.GetItemName());
-        SetItemRarity(orig.GetItemRarity());
-        SetItemType(orig.GetItemType());
-        SetArmorSlot(orig.GetArmorSlot());
-        SetArmorValue(orig.GetArmorValue());
-    }
     //END OF CONSTRUCTORS//
 
     //CREATE FUNCTIONS//
-    public ArmorItems CreateRandomArmor(int nEntityLevel )
+    void CreateRandomArmor(int nEntityLevel, int nMobLevel )
     {
         int nRNGPercentage;
         string namePrefix;
@@ -102,8 +94,6 @@ using System.Collections;
 
         SetItemName(namePrefix);
 
-        Debug.Log("Random Armor successfully created!");
-        return this;
     }
     //END OF CREATE FUNCTIONS//
 
@@ -114,13 +104,16 @@ using System.Collections;
             return;   
         armorSlot = nArmorSlot;
     }
+
     int GetArmorSlot() { return armorSlot; }
+
     void SetArmorValue( float fArmorValue)
     {
         if (fArmorValue < 0)
             return;
         armorValue = fArmorValue;
     }
+
     float GetArmorValue() { return armorValue; }
     //END OF GET AND SET METHODS//
 }
