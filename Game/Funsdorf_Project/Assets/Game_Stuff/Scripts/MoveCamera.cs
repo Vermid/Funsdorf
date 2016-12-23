@@ -15,7 +15,6 @@ public class MoveCamera : MonoBehaviour
     {
         bc2d = GameObject.FindGameObjectWithTag("PlayerCameraCollider").GetComponent<BoxCollider2D>();
         boxSize = bc2d.bounds.size;
-        Debug.Log(bc2d);
     }
 
 
@@ -31,7 +30,7 @@ public class MoveCamera : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
-        Debug.Log(boxSize.x);
+        //Debug.Log(boxSize.x);
 
 
         //mousePos = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.transform.position.y - transform.position.y));
