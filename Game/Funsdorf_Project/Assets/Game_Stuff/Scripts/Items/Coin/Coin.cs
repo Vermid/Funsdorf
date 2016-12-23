@@ -8,7 +8,6 @@ public class Coin : MonoBehaviour
     private PlayerController playerController;
     private Animator anim;
     private bool death = false;
-    private bool idle = false;
     // Use this for initialization
     void Start()
     {
