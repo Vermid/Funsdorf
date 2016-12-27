@@ -28,3 +28,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Game/Funsdorf_Project/Library/assetDatabase3
+*.dwlt
+Game/Funsdorf_Project/Library/expandedItems
+*.dll
+Game/Funsdorf_Project/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
