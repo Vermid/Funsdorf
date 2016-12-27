@@ -8,28 +8,28 @@ using UnityEngine;
 public class MoveCamera : MonoBehaviour
 {
 
-    private bool up = false;
-    private BoxCollider2D bc2d;
-    private Vector2 boxSize;
+    //private bool up = false;
+    //private BoxCollider2D bc2d;
+    //private Vector2 boxSize;
     void Start()
     {
-        bc2d = GameObject.FindGameObjectWithTag("PlayerCameraCollider").GetComponent<BoxCollider2D>();
-        boxSize = bc2d.bounds.size;
+      //  bc2d = GameObject.FindGameObjectWithTag("PlayerCameraCollider").GetComponent<BoxCollider2D>();
+        //boxSize = bc2d.bounds.size;
     }
 
 
-    void OnTriggerEnter2d(Collider2D other)
-    {
-        if (other.gameObject.tag == "MainCamera")
-            ;
-    }
+    //void OnTriggerEnter2d(Collider2D other)
+    //{
+    //    if (other.gameObject.tag == "MainCamera")
+    //        ;
+    //}
 
 
 
     public void Move_Camera()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
+        //Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //mousePos.z = 0;
         //Debug.Log(boxSize.x);
 
 
