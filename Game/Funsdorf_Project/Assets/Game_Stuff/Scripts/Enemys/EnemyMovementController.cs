@@ -18,6 +18,8 @@ public class EnemyMovementController : MonoBehaviour {
     public float timeToMove;
     private float timeToMoveCounter;
 
+    GameObject walkarea2;
+
     public Collider2D walkZone;
     private Vector2 minWalkPoint;
     private Vector2 maxWalkPoint;
@@ -30,20 +32,31 @@ public class EnemyMovementController : MonoBehaviour {
     private float StartPosX;
     private float StartPosY;
 
-    public bool MultiSpawn; //Multible spawn, nicht fertig
-    public int EnemyCount;
+    //public GameObject EnemyType;    //Für übersicht in EnemyLiving verschieben
+
+    //public bool MultiSpawn; //Multible spawn, nicht fertig
+    //private bool FirstSpawn = false;
+    //public int EnemyCount = 0;
 
     void Start ()
     {
         StartPosX = transform.position.x;
         StartPosY = transform.position.y;
+        //walkZone = GetComponent<Collider2D>();
+        //Collider2D walkZone = gameObject.AddComponent<Collider2D>();
+
+        walkarea2 = GameObject.FindGameObjectWithTag("WalkArea");
+        walkZone = walkarea2.GetComponent<Collider2D>();
 
         if (walkZone != null)
         {
             minWalkPoint = walkZone.bounds.min;
             maxWalkPoint = walkZone.bounds.max;
             hasWalkZone = true;
-            SpawnEnemy();
+            //if (!FirstSpawn)
+            //{
+            //    SpawnEnemy();
+            //}
         }
 
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -104,7 +117,6 @@ public class EnemyMovementController : MonoBehaviour {
         {
             z2 = 1;
         }
-        Debug.Log(timeBetweenMoveCounter);
         if (!bewegtsich)
         {
            
@@ -113,7 +125,6 @@ public class EnemyMovementController : MonoBehaviour {
             {
                 Invoke(MyConst.StopME, 5);
                 timeBetweenMoveCounter = 8;
-                Debug.Log(moving);
                 timeToMoveCounter = timeToMove;
                 if (x > 5 && y > 5)
                 {
@@ -151,21 +162,28 @@ public class EnemyMovementController : MonoBehaviour {
             myRigidbody.velocity = new Vector2(1 * moveSpeed, 0) / 2;
     }
 
+    /*****************************************************************************************************************************************/
+
     public void ChangeMe()
     {
         Living = !Living;
-        Debug.Log("hallo");
     }
+
+    /*****************************************************************************************************************************************/
 
     public void InSight()
     {
         Tracing = !Tracing;
     }
 
+    /*****************************************************************************************************************************************/
+
     public void ReSpawn()
     {
         myRigidbody.transform.position = new Vector2(StartPosX, StartPosY);
     }
+
+    /*****************************************************************************************************************************************/
 
     public void RandomSpawn()
     {
@@ -175,13 +193,14 @@ public class EnemyMovementController : MonoBehaviour {
         }
     }
 
-    public void SpawnEnemy()
-    {
-        while (EnemyCount > 0)
-        {
-            //Instantiate(this);
-            Debug.Log("funzt");
-            EnemyCount -= 1;
-        }
-    }
+    /*****************************************************************************************************************************************/
+
+    //public void SpawnEnemy()
+    //{
+    //    //myRigidbody.transform.position = new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y));
+    //    //GameObject Child = Instantiate(EnemyType, new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y)), Quaternion.identity);
+
+    //    //Child.transform.parent =  this.transform.parent;
+    //    Debug.Log("funzt");
+    //}
 }
