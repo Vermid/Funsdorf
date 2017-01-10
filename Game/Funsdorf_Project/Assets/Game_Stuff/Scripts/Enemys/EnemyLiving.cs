@@ -5,54 +5,75 @@ public class EnemyLiving : MonoBehaviour
 {
 
     EnemyMovementController KI;
+    EnemySpawn Spawn;
     Rigidbody2D rgb;
+
+
 
     private float StartPosX;
     private float StartPosY;
 
     public bool RandomSpawn;
 
-    // Use this for initialization
+    public bool MultiSpawn;
+    private bool FirstSpawn = false;
+    public int EnemyCount = 0;
+
+    /*****************************************************************************************************************************************/
+
     void Start ()
     {
         StartPosX = transform.position.x;
         StartPosY = transform.position.y;
         rgb = gameObject.GetComponent<Rigidbody2D>();
         //KI = transform.parent.GetComponent<EnemyMovementController>();   Need for Hirachie
+
         KI = transform.GetComponentInChildren<EnemyMovementController>();
-        Debug.Log(rgb);
+        Spawn = transform.GetComponentInChildren<EnemySpawn>();
+        
 	}
-	
+
+    /*****************************************************************************************************************************************/
+
     void OnTriggerEnter2D (Collider2D other)
     {
         if(other.tag == MyConst.PlayerBody)
         {
-
-            KI.ChangeMe();
-
-
+            if (FirstSpawn == false)
+            {
+                while (EnemyCount > 0)
+                {
+                    Spawn.SpawnEnemy();
+                    EnemyCount -= 1;
+                }
+                FirstSpawn = true;
+            }
+            BroadcastMessage("ChangeMe");
         }
     }
+
+    /*****************************************************************************************************************************************/
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == MyConst.PlayerBody)
         {
-            KI.ChangeMe();
+            BroadcastMessage("ChangeMe");
             if (RandomSpawn == false)
             {
-                KI.ReSpawn();
+                BroadcastMessage("ReSpawn");
                 rgb.transform.position = new Vector2(StartPosX, StartPosY);
             }
             else
             {
-                KI.RandomSpawn();
+                BroadcastMessage("RandomSpawn");
                 rgb.transform.position = new Vector2(StartPosX, StartPosY);
             }
         }
     }
 
-    // Update is called once per frame
+    /*****************************************************************************************************************************************/
+
     void FixedUpdate () {
         rgb.velocity = Vector2.zero;
     }

@@ -7,7 +7,7 @@ public class MyConst
     public static string Player = "Player";
     public static string PlayerBody = "PlayerBody";
     public static string Enemy = "Enemy";
-
+    public static string WalkArea = "WalkArea";
 
 
     //Function Names
