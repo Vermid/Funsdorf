@@ -10,7 +10,7 @@ class ItemRandomizer : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(MyConst.Player);
         inventorySpace = player.GetComponent<InventorySystem>();
         randomArmor = new ArmorItems();
         randomWeapon = new WeaponItems();
@@ -18,7 +18,7 @@ class ItemRandomizer : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Player")
+        if (coll.gameObject.tag == MyConst.Player)
         {
             RandomItemDropChance(10);
         }
