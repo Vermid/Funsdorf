@@ -5,6 +5,7 @@ public class KI_HealthController : MonoBehaviour
 {
     public float health = 2;
     private bool dead = false;
+    public GameObject spawn;
 
     public void Damage(float dmg)
     {
@@ -28,6 +29,7 @@ public class KI_HealthController : MonoBehaviour
     }
     void Cooldown()
     {
+        GameObject itemBag = (GameObject)Instantiate(spawn, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
