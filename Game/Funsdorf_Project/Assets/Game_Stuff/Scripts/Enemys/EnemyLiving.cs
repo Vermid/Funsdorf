@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class EnemyLiving : MonoBehaviour
 {
 
-    EnemyMovementController KI;
+    //EnemyMovementController KI;
     EnemySpawn Spawn;
     Rigidbody2D rgb;
 
@@ -15,7 +16,6 @@ public class EnemyLiving : MonoBehaviour
 
     public bool RandomSpawn;
 
-    public bool MultiSpawn;
     private bool FirstSpawn = false;
     public int EnemyCount = 0;
 
@@ -28,7 +28,7 @@ public class EnemyLiving : MonoBehaviour
         rgb = gameObject.GetComponent<Rigidbody2D>();
         //KI = transform.parent.GetComponent<EnemyMovementController>();   Need for Hirachie
 
-        KI = transform.GetComponentInChildren<EnemyMovementController>();
+        //KI = transform.GetComponentInChildren<EnemyMovementController>();
         Spawn = transform.GetComponentInChildren<EnemySpawn>();
         
 	}
@@ -44,11 +44,12 @@ public class EnemyLiving : MonoBehaviour
                 while (EnemyCount > 0)
                 {
                     Spawn.SpawnEnemy();
+                    Debug.Log(EnemyCount);
                     EnemyCount -= 1;
                 }
                 FirstSpawn = true;
             }
-            BroadcastMessage("ChangeMe");
+            BroadcastMessage("ChangeMe", SendMessageOptions.DontRequireReceiver);
         }
     }
 
@@ -58,15 +59,28 @@ public class EnemyLiving : MonoBehaviour
     {
         if (other.tag == MyConst.PlayerBody)
         {
-            BroadcastMessage("ChangeMe");
+            //try
+            //{
+                BroadcastMessage("ChangeMe",SendMessageOptions.DontRequireReceiver);
+            //}
+            //catch (excep)
+            //{
+            //    //foreach (Transform child in transform)
+            //    //{
+            //    //    GameObject.Destroy(child.gameObject);
+            //    //}
+            //    //GameObject.Destroy();
+            //    Destroy(gameObject);
+            //    Debug.Log("error");
+            //}
             if (RandomSpawn == false)
             {
-                BroadcastMessage("ReSpawn");
+                BroadcastMessage("ReSpawn", SendMessageOptions.DontRequireReceiver);
                 rgb.transform.position = new Vector2(StartPosX, StartPosY);
             }
             else
             {
-                BroadcastMessage("RandomSpawn");
+                BroadcastMessage("RandomSpawn", SendMessageOptions.DontRequireReceiver);
                 rgb.transform.position = new Vector2(StartPosX, StartPosY);
             }
         }
@@ -76,5 +90,18 @@ public class EnemyLiving : MonoBehaviour
 
     void FixedUpdate () {
         rgb.velocity = Vector2.zero;
+        try
+        {
+
+        }
+        catch (Exception err)
+        {
+            //foreach (Transform child in transform)
+            //{
+            //    GameObject.Destroy(child.gameObject);
+            //}
+            //GameObject.Destroy();
+            Debug.Log("error");
+        }
     }
 }

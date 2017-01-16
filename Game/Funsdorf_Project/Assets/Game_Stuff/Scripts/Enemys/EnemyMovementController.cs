@@ -10,7 +10,6 @@ public class EnemyMovementController : MonoBehaviour {
     public float moveSpeed;
     private Rigidbody2D myRigidbody;
 
-    private bool moving = false;
     private bool bewegtsich = false;
 
     public float timeBetweenMove = 30;
@@ -45,8 +44,10 @@ public class EnemyMovementController : MonoBehaviour {
         //walkZone = GetComponent<Collider2D>();
         //Collider2D walkZone = gameObject.AddComponent<Collider2D>();
 
-        walkarea2 = GameObject.FindGameObjectWithTag("WalkArea");
+        walkarea2 = this.transform.parent.gameObject;
         walkZone = walkarea2.GetComponent<Collider2D>();
+        //walkarea2 = GameObject.FindGameObjectWithTag("WalkArea"); Für Zombie attacke
+        //walkZone = walkarea2.GetComponentInParent<Collider2D>();
 
         if (walkZone != null)
         {
@@ -200,7 +201,7 @@ public class EnemyMovementController : MonoBehaviour {
     //    //myRigidbody.transform.position = new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y));
     //    //GameObject Child = Instantiate(EnemyType, new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y)), Quaternion.identity);
 
-    //    //Child.transform.parent =  this.transform.parent;
+    ////Child.transform.parent =  this.transform.parent;
     //    Debug.Log("funzt");
     //}
 }
