@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour {
 
     public GameObject EnemyType;
-    private EnemyMovementController movementScript;
 
     private Vector2 minWalkPoint;
     private Vector2 maxWalkPoint;
@@ -20,10 +19,9 @@ public class EnemySpawn : MonoBehaviour {
         minWalkPoint = WalkZone.bounds.min;
         maxWalkPoint = WalkZone.bounds.max;
 
-        Parent = GameObject.FindGameObjectWithTag("WalkArea");
-
-        //GameObject Child = Instantiate(EnemyType, new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y)), Quaternion.identity);
-
+        Parent = this.gameObject;
+        //Parent = GameObject.FindGameObjectWithTag("WalkArea");  Für Zombie attack, wenn eingefügt wird letztes Prefab zum Parent 
+                                                                //alle Enemys werden in diese WalkArea Stürmen
     }
 	
 	// Update is called once per frame
