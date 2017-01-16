@@ -5,22 +5,15 @@ public class InventorySystem : MonoBehaviour
 {
     public  ArrayList inventorySpace;
     private bool isActiveBag;
-    private GameObject Bag;
 
     void Start()
     {
-        Bag = GameObject.FindGameObjectWithTag("UIBag");
         isActiveBag = false;
         inventorySpace = new ArrayList();
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Bag")) 
-        {
-            isActiveBag = !isActiveBag;
-        }
-        Bag.SetActive(isActiveBag);
     }
 
 

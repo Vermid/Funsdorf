@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/Scene1_Flo.unity
+=======
+- path: Assets/Scenes/Scene2_Almir.unity
+>>>>>>> refs/remotes/origin/master
   isLoaded: 1
   isActive: 1
