@@ -44,7 +44,6 @@ public class EnemyLiving : MonoBehaviour
                 while (EnemyCount > 0)
                 {
                     Spawn.SpawnEnemy();
-                    Debug.Log(EnemyCount);
                     EnemyCount -= 1;
                 }
                 FirstSpawn = true;
@@ -88,20 +87,8 @@ public class EnemyLiving : MonoBehaviour
 
     /*****************************************************************************************************************************************/
 
-    void FixedUpdate () {
+    void FixedUpdate ()
+    {
         rgb.velocity = Vector2.zero;
-        try
-        {
-
-        }
-        catch (Exception err)
-        {
-            //foreach (Transform child in transform)
-            //{
-            //    GameObject.Destroy(child.gameObject);
-            //}
-            //GameObject.Destroy();
-            Debug.Log("error");
-        }
     }
 }
