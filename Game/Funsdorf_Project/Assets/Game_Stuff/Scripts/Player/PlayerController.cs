@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     private float diagonalRunSpeed;
     private float maxStamina;
     private float maxMovementSpeed;
-    private float diagonalSpeed;
     private float moveHorizontal;
     private float moveVertical;
     private bool moving = true;
@@ -35,25 +34,21 @@ public class PlayerController : MonoBehaviour
     private MoveCamera cam;
     public Text coinText;
     public Text staminaText;
-    private Dash_Charge_Blink dash_Charge_Blink;
+    private SpecialAbilities specialAbilities;
 
-
-
-    private Vector3 mousVector;
     void Start()
     {
         rgb2 = GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
         playAnimation = GetComponentInChildren<PlayAnimation>();
         cam = GetComponentInChildren<MoveCamera>();//  GameObject.FindWithTag("MainCamera").GetComponent<MoveCamera>();
-        dash_Charge_Blink = GetComponent<Dash_Charge_Blink>();
+        specialAbilities = GetComponent<SpecialAbilities>();
         SetStartVariables();
     }
 
     void SetStartVariables()
     {
         maxMovementSpeed = startMovementSpeed;
-        diagonalSpeed = maxMovementSpeed - 0.5F;
         diagonalRunSpeed = runSpeed - 1.5F;
         maxStamina = stamina;
     }
@@ -63,7 +58,7 @@ public class PlayerController : MonoBehaviour
         PlayerMovement();
         UsePotion();
         PlayerAttack();
-        mousVector = cam.Move_Camera();
+        cam.Move_Camera();
         GuiText();
     }
 
@@ -88,13 +83,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        //if (Input.GetButton("Action"))
     }
 
-    void Cooldown()
-    {
-        globalCoolDown = !globalCoolDown;
-    }
 
     void PlayerAttack()
     {
@@ -104,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
         //Swing melee weapon and shoot with bow or Staff
         if (Input.GetButton("Special1"))
-            dash_Charge_Blink.Dash(mousVector);
+            specialAbilities.Dash();
      
         //if (Input.GetButton("Special2"))
     }
@@ -153,6 +143,8 @@ public class PlayerController : MonoBehaviour
         {
             #region Anim WASD DIRECTION
 
+            float playerX = gameObject.transform.position.x;
+            float playerY = gameObject.transform.position.y;
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
 
@@ -163,28 +155,28 @@ public class PlayerController : MonoBehaviour
 
             //Debug.DrawRay(transform.position, Vector3.forward, Color.red);
 
-            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y < gameObject.transform.position.y)
+            if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY)
                 playAnimation.Down();
 
-            if (mousePos.x < (gameObject.transform.position.x + 0.53F) && mousePos.x > (gameObject.transform.position.x - 0.53F) && mousePos.y > gameObject.transform.position.y)
+            if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y > playerY)
                 playAnimation.Up();
 
-            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x < gameObject.transform.position.x)
+            if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x < playerX)
                 playAnimation.Left();
 
-            if (mousePos.y < (gameObject.transform.position.y + 0.53F) && mousePos.y > (gameObject.transform.position.y - 0.49F) && mousePos.x > gameObject.transform.position.x)
+            if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x > playerX)
                 playAnimation.Right();
 
-            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
+            if (mousePos.x > (playerX + 0.54F) && mousePos.y > (playerY + 0.54F))
                 playAnimation.RightUp();
 
-            if (mousePos.x > (gameObject.transform.position.x + 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
+            if (mousePos.x > (playerX + 0.54F) && mousePos.y < (playerY - 0.54F))
                 playAnimation.RightDown();
 
-            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y > (gameObject.transform.position.y + 0.54F))
+            if (mousePos.x < (playerX - 0.54F) && mousePos.y > (playerY + 0.54F))
                 playAnimation.LeftUp();
 
-            if (mousePos.x < (gameObject.transform.position.x - 0.54F) && mousePos.y < (gameObject.transform.position.y - 0.54F))
+            if (mousePos.x < (playerX - 0.54F) && mousePos.y < (playerY - 0.54F))
                 playAnimation.LeftDown();
             #endregion
         }
@@ -294,4 +286,8 @@ public class PlayerController : MonoBehaviour
         return coin ;
     }
 
+    void Cooldown()
+    {
+        globalCoolDown = !globalCoolDown;
+    }
 }
