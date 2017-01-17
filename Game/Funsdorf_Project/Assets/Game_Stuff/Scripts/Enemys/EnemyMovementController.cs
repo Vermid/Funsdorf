@@ -33,16 +33,10 @@ public class EnemyMovementController : MonoBehaviour {
 
     //public GameObject EnemyType;    //Für übersicht in EnemyLiving verschieben
 
-    //public bool MultiSpawn; //Multible spawn, nicht fertig
-    //private bool FirstSpawn = false;
-    //public int EnemyCount = 0;
-
     void Start ()
     {
         StartPosX = transform.position.x;
         StartPosY = transform.position.y;
-        //walkZone = GetComponent<Collider2D>();
-        //Collider2D walkZone = gameObject.AddComponent<Collider2D>();
 
         walkarea2 = this.transform.parent.gameObject;
         walkZone = walkarea2.GetComponent<Collider2D>();
@@ -54,10 +48,6 @@ public class EnemyMovementController : MonoBehaviour {
             minWalkPoint = walkZone.bounds.min;
             maxWalkPoint = walkZone.bounds.max;
             hasWalkZone = true;
-            //if (!FirstSpawn)
-            //{
-            //    SpawnEnemy();
-            //}
         }
 
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -196,12 +186,4 @@ public class EnemyMovementController : MonoBehaviour {
 
     /*****************************************************************************************************************************************/
 
-    //public void SpawnEnemy()
-    //{
-    //    //myRigidbody.transform.position = new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y));
-    //    //GameObject Child = Instantiate(EnemyType, new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y)), Quaternion.identity);
-
-    ////Child.transform.parent =  this.transform.parent;
-    //    Debug.Log("funzt");
-    //}
 }

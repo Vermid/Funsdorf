@@ -32,8 +32,6 @@ public class EnemySpawn : MonoBehaviour {
    public void SpawnEnemy()
     {
         GameObject Child = Instantiate(EnemyType, new Vector2(Random.Range(maxWalkPoint.x, minWalkPoint.x), Random.Range(maxWalkPoint.y, minWalkPoint.y)), Quaternion.identity);
-        Child.transform.parent = Parent.transform;/*parent = this.transform.parent;*/ //Hier script mit WalkArea Zufügen
-        //movementScript = Child.GetComponent<EnemyMovementController>();
-        //movementScript.walkZone = gameObject.GetComponentInParent<Collider2D>();
+        Child.transform.parent = Parent.transform;
     }
 }

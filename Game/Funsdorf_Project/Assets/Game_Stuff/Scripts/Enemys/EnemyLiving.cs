@@ -5,7 +5,6 @@ using System;
 public class EnemyLiving : MonoBehaviour
 {
 
-    //EnemyMovementController KI;
     EnemySpawn Spawn;
     Rigidbody2D rgb;
 
@@ -44,7 +43,6 @@ public class EnemyLiving : MonoBehaviour
                 while (EnemyCount > 0)
                 {
                     Spawn.SpawnEnemy();
-                    Debug.Log(EnemyCount);
                     EnemyCount -= 1;
                 }
                 FirstSpawn = true;
@@ -59,20 +57,7 @@ public class EnemyLiving : MonoBehaviour
     {
         if (other.tag == MyConst.PlayerBody)
         {
-            //try
-            //{
                 BroadcastMessage("ChangeMe",SendMessageOptions.DontRequireReceiver);
-            //}
-            //catch (excep)
-            //{
-            //    //foreach (Transform child in transform)
-            //    //{
-            //    //    GameObject.Destroy(child.gameObject);
-            //    //}
-            //    //GameObject.Destroy();
-            //    Destroy(gameObject);
-            //    Debug.Log("error");
-            //}
             if (RandomSpawn == false)
             {
                 BroadcastMessage("ReSpawn", SendMessageOptions.DontRequireReceiver);
@@ -90,18 +75,5 @@ public class EnemyLiving : MonoBehaviour
 
     void FixedUpdate () {
         rgb.velocity = Vector2.zero;
-        try
-        {
-
-        }
-        catch (Exception err)
-        {
-            //foreach (Transform child in transform)
-            //{
-            //    GameObject.Destroy(child.gameObject);
-            //}
-            //GameObject.Destroy();
-            Debug.Log("error");
-        }
     }
 }
