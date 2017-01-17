@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
+- path: Assets/Scenes/TestScene1_Zaim.unity
+=======
 - path: Assets/Scenes/Scene1_Flo.unity
+>>>>>>> refs/remotes/origin/master
   isLoaded: 1
   isActive: 1
