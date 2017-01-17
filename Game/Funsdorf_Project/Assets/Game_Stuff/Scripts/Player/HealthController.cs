@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 
 /* ToDo
@@ -23,6 +25,9 @@ public class HealthController : MonoBehaviour
 
     public bool dot = false;
     PlayerController playerController;
+    public Text healthText;
+    public Text orbsText;
+    public Text potionText;
 
     void Start()
     {
@@ -32,6 +37,9 @@ public class HealthController : MonoBehaviour
 
     void FixedUpdate()
     {
+        healthText.text = "Health " + health.ToString();
+        orbsText.text = "Orb " + orbs.ToString();
+        potionText.text = "Potion " + potion.ToString();
         float dmg = (Time.deltaTime / 8);
 
         if (dot)

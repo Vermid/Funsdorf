@@ -22,7 +22,7 @@ public class MoveCamera : MonoBehaviour
         playerController = GameObject.FindWithTag(MyConst.Player).GetComponent<PlayerController>();
     }
 
-    public void Move_Camera()
+    public Vector3 Move_Camera()
     {
         transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime, Input.GetAxisRaw("Mouse Y") * Time.deltaTime, /*Insert Zoom here*/0f);
         transform.position = new Vector3(
@@ -30,5 +30,6 @@ public class MoveCamera : MonoBehaviour
             Mathf.Clamp(transform.position.y, playerController.transform.position.y + clampYDown, playerController.transform.position.y + clampYUp),
             Mathf.Clamp(transform.position.z, playerController.transform.position.z + clampZIn, playerController.transform.position.z + clampZOut));
         //maybe you have to change clampZIn with clampZOut i made it in 2D
+        return transform.position;
     }
 }

@@ -53,4 +53,8 @@ public class PlayAnimation : MonoBehaviour
         anim.SetTrigger("RightDown");
     }
 
+    public void AttackNow()
+    {
+        anim.SetTrigger("Swing");
+    }
 }

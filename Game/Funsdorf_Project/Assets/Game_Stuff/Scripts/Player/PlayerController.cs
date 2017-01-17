@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 /*  ToDo:
 *   Stamina  
@@ -9,11 +11,11 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     //Variablen Für die Gameobjects, Joints und Rigidbodies
-    public float startMovementSpeed = 3;
-    public float stamina = 10;
-    public float runSpeed = 5;
-    
-    private bool running = false;
+    private float startMovementSpeed = 3;
+    private float stamina = 10;
+    private float runSpeed = 5;
+    private int coin = 0;
+    private bool running = true;
     private bool canWeSprint = true;
     private float diagonalRunSpeed;
     private float maxStamina;
@@ -21,28 +23,30 @@ public class PlayerController : MonoBehaviour
     private float diagonalSpeed;
     private float moveHorizontal;
     private float moveVertical;
+    private bool moving = true;
     private bool disableMovement = false;
     private bool globalCoolDown = false;
+
     //Objects
     public Transform playerSpawnPoint;
     private Rigidbody2D rgb2;
     private HealthController healthController;
     private PlayAnimation playAnimation;
-    public int camDistance = 3;
     private MoveCamera cam;
-    public Vector3 camPos;
-    public Vector3 playerPos;
+    public Text coinText;
+    public Text staminaText;
+    private Dash_Charge_Blink dash_Charge_Blink;
 
-    public float rotationSpeed = 450;
-    private bool moving = true;
-    public int coin = 0;
 
+
+    private Vector3 mousVector;
     void Start()
     {
         rgb2 = GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
         playAnimation = GetComponentInChildren<PlayAnimation>();
         cam = GetComponentInChildren<MoveCamera>();//  GameObject.FindWithTag("MainCamera").GetComponent<MoveCamera>();
+        dash_Charge_Blink = GetComponent<Dash_Charge_Blink>();
         SetStartVariables();
     }
 
@@ -59,25 +63,15 @@ public class PlayerController : MonoBehaviour
         PlayerMovement();
         UsePotion();
         PlayerAttack();
-        cam.Move_Camera();
+        mousVector = cam.Move_Camera();
+        GuiText();
     }
 
-
-    //public void Move_Camera()
-    //{
-    //    cam.transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime, Input.GetAxisRaw("Mouse Y") * Time.deltaTime, 0f);
-    //    cam.transform.position = new Vector3(
-    //        Mathf.Clamp(cam.transform.position.x, transform.position.x + clampXLeft, transform.position.x + clampXRight), 
-    //        Mathf.Clamp(cam.transform.position.y, transform.position.y + clampYDown, transform.position.y + clampYUp),
-    //        Mathf.Clamp(cam.transform.position.z, transform.position.z + clampZIn, transform.position.z + clampZOut));
-    //    //maybe you have to change clampZIn with clampZOut i made it in 2D
-    //    //playerPos.y = Mathf.Clamp(cam.transform.position.y, transform.position.y + clampYDown, transform.position.y + clampYUp);
-    //    //playerPos.x = Mathf.Clamp(cam.transform.position.x, transform.position.x + clampXLeft, transform.position.x + clampXRight);
-    //    //playerPos.z = -10;
-    //    //cam.transform.position = playerPos;
-    //}
-
-
+    void GuiText()
+    {
+        staminaText.text = "Stamina " + stamina.ToString();
+        coinText.text = "Coin " + coin.ToString();
+}
     void UsePotion()
     {
         //insert potion and actionButton here
@@ -105,11 +99,16 @@ public class PlayerController : MonoBehaviour
     void PlayerAttack()
     {
         //Insert Attack Prime,Special 1 and Special 2
-        //if (Input.GetButton("Attack"))
-        //Swing melee weapon and shot woth bow or Staff
-        //if (Input.GetButton("Special1"))
+        if (Input.GetButton("Attack"))
+            playAnimation.AttackNow();
+
+        //Swing melee weapon and shoot with bow or Staff
+        if (Input.GetButton("Special1"))
+            dash_Charge_Blink.Dash(mousVector);
+     
         //if (Input.GetButton("Special2"))
     }
+
 
     void PlayerMovement()
     {
@@ -120,26 +119,26 @@ public class PlayerController : MonoBehaviour
         moveVertical = Input.GetAxisRaw("Vertical");
 
         #region Anim DIRECTION
-        //if (moveHorizontal < 0)
-        //    playAnimation.Left();
-        //if (moveHorizontal > 0)
-        //    playAnimation.Right();
-        //if (moveVertical > 0)
-        //    playAnimation.Up();
-        //if (moveVertical < 0)
-        //    playAnimation.Down();
+        if (moveHorizontal < 0)
+            playAnimation.Left();
+        if (moveHorizontal > 0)
+            playAnimation.Right();
+        if (moveVertical > 0)
+            playAnimation.Up();
+        if (moveVertical < 0)
+            playAnimation.Down();
 
-        //if (moveHorizontal < 0 && moveVertical < 0)
-        //    playAnimation.RightUp();
+        if (moveHorizontal < 0 && moveVertical < 0)
+            playAnimation.RightUp();
 
-        //if (moveHorizontal < 0 && moveVertical > 0)
-        //    playAnimation.LeftUp();
+        if (moveHorizontal < 0 && moveVertical > 0)
+            playAnimation.LeftUp();
 
-        //if (moveHorizontal > 0 && moveVertical < 0)
-        //    playAnimation.RightDown();
+        if (moveHorizontal > 0 && moveVertical < 0)
+            playAnimation.RightDown();
 
-        //if (moveHorizontal > 0 && moveVertical > 0)
-        //    playAnimation.LeftDown();
+        if (moveHorizontal > 0 && moveVertical > 0)
+            playAnimation.LeftDown();
 
         #endregion
 
@@ -195,38 +194,32 @@ public class PlayerController : MonoBehaviour
 
     void PlayerRun(bool disableMove)
     {
-        if (moveHorizontal != 0 && moveVertical != 0)
+        if (Input.GetButton("Run") && canWeSprint)
         {
-            if (Input.GetButton("Run"))
+            if (moveHorizontal != 0 && moveVertical != 0)
                 startMovementSpeed = diagonalRunSpeed;
-            else
-                startMovementSpeed = diagonalSpeed;
-        }
-        else if (Input.GetButton("Run"))
-            startMovementSpeed = runSpeed;
-        else
-            startMovementSpeed = maxMovementSpeed;
 
-        if (Input.GetButton("Run") && stamina > 1)
+            if (moveHorizontal != 0 || moveVertical != 0)
+                startMovementSpeed = runSpeed;
+
+            stamina -= Time.deltaTime;
+            running = !running; //running = true;
+
+            if (stamina < 1)
+                canWeSprint = false;
+        }
+        else
         {
-            if (canWeSprint)
-            {
-                stamina -= Time.deltaTime;
-                running = true;
-
-                if (stamina < 1)
-                    canWeSprint = false;
-            }
+            running = !running; //running = false;
+            startMovementSpeed = maxMovementSpeed;
         }
-        else
-            running = false;
 
-        if (running == false)
+        if (!running)
         {
             if (stamina >= 0 && stamina <= maxStamina)
                 stamina += Time.deltaTime;
 
-            if (stamina > 3)
+            if (stamina > 5)
                 canWeSprint = true;
 
             if (stamina > maxStamina)
@@ -235,7 +228,7 @@ public class PlayerController : MonoBehaviour
                 stamina = maxStamina;
             }
         }
-
+        
         //Velocity zu Rigidbody vom Spieler 
         if (!disableMove)
             rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, moveVertical * startMovementSpeed);
