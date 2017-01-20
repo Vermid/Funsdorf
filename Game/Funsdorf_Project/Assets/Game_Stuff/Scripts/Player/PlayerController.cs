@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 /*  ToDo:
 *   Stamina  
-*   Vecotr3.down
 *   Variable try out/ delete
 */
 public class PlayerController : MonoBehaviour
@@ -31,19 +30,28 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rgb2;
     private HealthController healthController;
     private PlayAnimation playAnimation;
+    private WeaponScript weaponScript;
     private MoveCamera cam;
     public Text coinText;
     public Text staminaText;
+    public GameObject arrow;
     private SpecialAbilities specialAbilities;
 
     void Start()
+    {
+        GetComponents();
+        SetStartVariables();
+    }
+
+    void GetComponents()
     {
         rgb2 = GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
         playAnimation = GetComponentInChildren<PlayAnimation>();
         cam = GetComponentInChildren<MoveCamera>();//  GameObject.FindWithTag("MainCamera").GetComponent<MoveCamera>();
         specialAbilities = GetComponent<SpecialAbilities>();
-        SetStartVariables();
+        weaponScript = GetComponentInChildren<WeaponScript>();
+
     }
 
     void SetStartVariables()
@@ -62,11 +70,7 @@ public class PlayerController : MonoBehaviour
         GuiText();
     }
 
-    void GuiText()
-    {
-        staminaText.text = "Stamina " + stamina.ToString();
-        coinText.text = "Coin " + coin.ToString();
-}
+
     void UsePotion()
     {
         //insert potion and actionButton here
@@ -75,7 +79,7 @@ public class PlayerController : MonoBehaviour
             if (!globalCoolDown)
             {
                 bool healthfilled = false;
-                healthfilled =  healthController.AddHealth();
+                healthfilled = healthController.AddHealth();
                 if (healthfilled)
                 {
                     globalCoolDown = !globalCoolDown;
@@ -85,18 +89,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void PlayerAttack()
     {
         //Insert Attack Prime,Special 1 and Special 2
         if (Input.GetButton("Attack"))
-            playAnimation.AttackNow();
-
+        {
+            //playAnimation.AttackNow();
+            weaponScript.Attack();
+        }
         //Swing melee weapon and shoot with bow or Staff
-        if (Input.GetButton("Special1"))
-            specialAbilities.Dash();
-     
-        //if (Input.GetButton("Special2"))
+        if (Input.GetButton("Special1")) //special 1 == SpaceBar
+            specialAbilities.SpAbilities();
+
+        //if (Input.GetButton("Special2"))      //special 2 == right mous button
     }
 
 
@@ -141,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
         if (!moving)
         {
-            #region Anim WASD DIRECTION
+            #region Anim Mouse DIRECTION
 
             float playerX = gameObject.transform.position.x;
             float playerY = gameObject.transform.position.y;
@@ -220,7 +225,7 @@ public class PlayerController : MonoBehaviour
                 stamina = maxStamina;
             }
         }
-        
+
         //Velocity zu Rigidbody vom Spieler 
         if (!disableMove)
             rgb2.velocity = new Vector2(moveHorizontal * startMovementSpeed, moveVertical * startMovementSpeed);
@@ -278,16 +283,23 @@ public class PlayerController : MonoBehaviour
 
     public void SetCoin(int coin)
     {
-       this.coin += coin;
+        this.coin += coin;
     }
 
-    public int GetCoin( )
+    public int GetCoin()
     {
-        return coin ;
+        return coin;
     }
 
     void Cooldown()
     {
         globalCoolDown = !globalCoolDown;
     }
+
+    void GuiText()
+    {
+        staminaText.text = "Stamina " + stamina.ToString();
+        coinText.text = "Coin " + coin.ToString();
+    }
+
 }
