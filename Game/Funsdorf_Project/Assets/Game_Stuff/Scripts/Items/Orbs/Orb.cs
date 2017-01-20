@@ -10,7 +10,7 @@ public class Orb : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
+        healthController = GameObject.FindGameObjectWithTag(MyConst.Player).GetComponentInChildren<HealthController>();
 
         anim = GetComponent<Animator>();
         anim.SetTrigger("Spawn");

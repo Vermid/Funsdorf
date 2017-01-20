@@ -9,10 +9,11 @@ public class Coin_Spawn : MonoBehaviour
 
     private KI_HealthController ki_HealthController;
     private bool weAreDead = false;
-
+    GameObject parent;
     void Start()
     {
         ki_HealthController = transform.parent.gameObject.GetComponent<KI_HealthController>();
+        parent = GameObject.FindGameObjectWithTag(MyConst.Clones);
     }
 
     void Update()
@@ -40,8 +41,10 @@ public class Coin_Spawn : MonoBehaviour
             int y = Random.Range(-5, 5);
 
             GameObject coinClone = (GameObject)Instantiate(spawn, transform.position, Quaternion.identity);
+            coinClone.transform.parent = parent.transform;
             coinClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(x, y) * Random.Range(0, moveSpeed));
             i++;
+
             StartCoroutine(Wait(coinClone, waitTime));
         }
 

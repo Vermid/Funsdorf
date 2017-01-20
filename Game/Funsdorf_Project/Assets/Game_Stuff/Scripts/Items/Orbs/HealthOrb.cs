@@ -8,11 +8,14 @@ public class HealthOrb : MonoBehaviour
 
     private KI_HealthController ki_HealthController;
     private bool weAreDead = false;
+    GameObject parent;
 
     void Start()
     {
         ki_HealthController = transform.parent.gameObject.GetComponent<KI_HealthController>();
-    }     
+        parent = GameObject.FindGameObjectWithTag(MyConst.Clones);
+
+    }
 
     void Update()
     {
@@ -37,10 +40,11 @@ public class HealthOrb : MonoBehaviour
             int waitTime = Random.Range(0, 5);     
             int x = Random.Range(-10, 10);
             int y = Random.Range(-10, 10);
-            int z =Random.Range(0, 5);
 
             GameObject orbClone = (GameObject)Instantiate(spawn, transform.position, Quaternion.identity);
             orbClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(x, y) * Random.Range(0, moveSpeed));
+            orbClone.transform.parent = parent.transform;
+
             i++;
             StartCoroutine(Wait(orbClone, waitTime));
         }
