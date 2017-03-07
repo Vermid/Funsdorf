@@ -33,10 +33,10 @@ public class Coin_Spawn : MonoBehaviour
         int i = 0;
 
         howMuch = Mathf.RoundToInt(Random.Range(minCoins, maxCoins));
-
-        while (i < howMuch)
+        int tryout = 10;
+        while (i < tryout)
         {
-            int waitTime = Random.Range(0, 5);
+            int waitTime = Random.Range(0, 3);
             int x = Random.Range(-5, 5);
             int y = Random.Range(-5, 5);
 
@@ -45,19 +45,11 @@ public class Coin_Spawn : MonoBehaviour
             coinClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(x, y) * Random.Range(0, moveSpeed));
             i++;
 
-            StartCoroutine(Wait(coinClone, waitTime));
         }
 
         //instant Spawn
         //Instantiate(spawn, new Vector2(Random.Range(transform.position.x + 2 * 2, transform.position.x - 2 * 2), 
         //    Random.Range(transform.position.y + 2 * 2, transform.position.y - 2 * 2)), Quaternion.identity);
         return true;
-    }
-
-    IEnumerator Wait(GameObject coinClone, int waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        if (coinClone != null)
-            coinClone.GetComponent<Rigidbody2D>().velocity = Vector2.zero; //some error pops up sometime no idea what ? :D
     }
 }

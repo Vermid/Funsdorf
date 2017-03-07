@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 459cd23499355cc45be1c6b8dafaaa50
+timeCreated: 1487053510
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - coin: {fileID: 1932598337476810, guid: 814c1651abba24f41b1afbc7986b0859, type: 2}
+  - healthOrb: {fileID: 1000013957279992, guid: 2cb91413d7a132c45a110e45930d2f28,
+      type: 2}
+  - enemy: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

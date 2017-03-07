@@ -9,6 +9,8 @@ public class EnemyMovementController : MonoBehaviour {
 
     public float moveSpeed;
     private Rigidbody2D myRigidbody;
+    private Animator anim;
+    private bool isMoving = false;
 
     private bool bewegtsich = false;
 
@@ -61,7 +63,7 @@ public class EnemyMovementController : MonoBehaviour {
         }
 
         myRigidbody = GetComponent<Rigidbody2D>();
-
+        anim = GetComponent<Animator>();
         timeBetweenMoveCounter = timeBetweenMove;
         timeToMoveCounter = timeToMove;
 
@@ -140,9 +142,24 @@ public class EnemyMovementController : MonoBehaviour {
                 }
             }
         }
+
+        if (myRigidbody.velocity.y != 0 || myRigidbody.velocity.x != 0)
+        {
+            isMoving = true;
+        }
+        else
+            isMoving = false;
+
+        anim.SetBool("IsMoving", isMoving);
+        if(isMoving)
+        anim.SetFloat("YSpeed", myRigidbody.velocity.y);
+        else
+            anim.SetFloat("YSpeed", -1);
+
+        anim.SetFloat("XSpeed", myRigidbody.velocity.x);
     }
 
-/*****************************************************************************************************************************************/
+    /*****************************************************************************************************************************************/
 
     void StopME()
     {
