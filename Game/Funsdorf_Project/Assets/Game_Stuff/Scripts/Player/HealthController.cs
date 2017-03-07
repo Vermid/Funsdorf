@@ -7,7 +7,6 @@ using UnityEngine.UI;
 /* ToDo
 *   Dot Dmg stop when you dont move 
 */
-
 public class HealthController : MonoBehaviour
 {
     public float health = 10;

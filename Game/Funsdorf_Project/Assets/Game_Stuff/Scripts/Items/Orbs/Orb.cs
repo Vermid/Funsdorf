@@ -16,6 +16,9 @@ public class Orb : MonoBehaviour
         anim.SetTrigger("Spawn");
         Invoke("Spin", 1);
         Invoke(MyConst.Cooldown, 5);
+
+        int waitTime = Random.Range(0, 2);
+        StartCoroutine(WaittoFrezze(gameObject, waitTime));
     }
 
     void Update()
@@ -36,6 +39,16 @@ public class Orb : MonoBehaviour
         if (gameObject != null)
             Destroy(gameObject);
     }
+
+    IEnumerator WaittoFrezze(GameObject orb, int waitTime)
+    {
+        var myOldTransform = transform.localPosition;
+        yield return new WaitForSeconds(waitTime);
+            orb.GetComponent<Rigidbody2D>().velocity = Vector2.zero; //some error pops up sometime no idea what ? :D
+           // gameObject.transform.localPosition.transform.localPosition = myOldTransform;
+
+    }
+
 
     void Spin()
     {

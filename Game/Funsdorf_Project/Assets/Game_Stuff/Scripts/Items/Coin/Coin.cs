@@ -17,6 +17,10 @@ public class Coin : MonoBehaviour
         anim.SetTrigger("Spawn");
         Invoke("Spin", 1);
         Invoke(MyConst.Cooldown, destroyTimer);
+
+        int waitTime = Random.Range(0, 3);
+        StartCoroutine(WaittoFrezze(gameObject, 1));
+
     }
 
     void Update()
@@ -57,6 +61,12 @@ public class Coin : MonoBehaviour
             playerController.SetCoin(1);
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator WaittoFrezze(GameObject coin, int waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        coin.GetComponent<Rigidbody2D>().velocity = Vector2.zero; //some error pops up sometime no idea what ? :D
     }
 }
 

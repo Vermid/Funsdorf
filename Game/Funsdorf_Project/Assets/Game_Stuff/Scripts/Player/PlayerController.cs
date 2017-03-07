@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 
-
 /*  ToDo:
 *   Stamina  
 *   Variable try out/ delete
@@ -10,9 +9,13 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     //Variablen Für die Gameobjects, Joints und Rigidbodies
+    [SerializeField]
     private float startMovementSpeed = 3;
+    [SerializeField]
     private float stamina = 10;
+    [SerializeField]
     private float runSpeed = 5;
+
     private int coin = 0;
     private bool running = true;
     private bool canWeSprint = true;
@@ -29,13 +32,12 @@ public class PlayerController : MonoBehaviour
     public Transform playerSpawnPoint;
     private Rigidbody2D rgb2;
     private HealthController healthController;
-    private PlayAnimation playAnimation;
     private WeaponScript weaponScript;
     private MoveCamera cam;
     public Text coinText;
     public Text staminaText;
-    public GameObject arrow;
     private SpecialAbilities specialAbilities;
+    private Animator anim;
 
     void Start()
     {
@@ -47,11 +49,10 @@ public class PlayerController : MonoBehaviour
     {
         rgb2 = GetComponent<Rigidbody2D>();
         healthController = GameObject.FindWithTag(MyConst.PlayerBody).GetComponent<HealthController>();
-        playAnimation = GetComponentInChildren<PlayAnimation>();
         cam = GetComponentInChildren<MoveCamera>();//  GameObject.FindWithTag("MainCamera").GetComponent<MoveCamera>();
         specialAbilities = GetComponent<SpecialAbilities>();
         weaponScript = GetComponentInChildren<WeaponScript>();
-
+        anim = GetComponent<Animator>();
     }
 
     void SetStartVariables()
@@ -69,7 +70,6 @@ public class PlayerController : MonoBehaviour
         cam.Move_Camera();
         GuiText();
     }
-
 
     void UsePotion()
     {
@@ -104,7 +104,6 @@ public class PlayerController : MonoBehaviour
         //if (Input.GetButton("Special2"))      //special 2 == right mous button
     }
 
-
     void PlayerMovement()
     {
         ////MOVEMENT////
@@ -114,27 +113,8 @@ public class PlayerController : MonoBehaviour
         moveVertical = Input.GetAxisRaw("Vertical");
 
         #region Anim DIRECTION
-        if (moveHorizontal < 0)
-            playAnimation.Left();
-        if (moveHorizontal > 0)
-            playAnimation.Right();
-        if (moveVertical > 0)
-            playAnimation.Up();
-        if (moveVertical < 0)
-            playAnimation.Down();
-
-        if (moveHorizontal < 0 && moveVertical < 0)
-            playAnimation.RightUp();
-
-        if (moveHorizontal < 0 && moveVertical > 0)
-            playAnimation.LeftUp();
-
-        if (moveHorizontal > 0 && moveVertical < 0)
-            playAnimation.RightDown();
-
-        if (moveHorizontal > 0 && moveVertical > 0)
-            playAnimation.LeftDown();
-
+        anim.SetFloat("YSpeed", rgb2.velocity.y);
+        anim.SetFloat("XSpeed", rgb2.velocity.x);
         #endregion
 
         if (moveHorizontal != 0 || moveVertical != 0)
@@ -142,7 +122,7 @@ public class PlayerController : MonoBehaviour
             moving = true;
         }
         else
-            moving = !moving;
+            moving = false;
 
         if (!moving)
         {
@@ -160,31 +140,21 @@ public class PlayerController : MonoBehaviour
 
             //Debug.DrawRay(transform.position, Vector3.forward, Color.red);
 
-            if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY)
-                playAnimation.Down();
-
-            if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y > playerY)
-                playAnimation.Up();
-
-            if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x < playerX)
-                playAnimation.Left();
-
-            if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x > playerX)
-                playAnimation.Right();
-
-            if (mousePos.x > (playerX + 0.54F) && mousePos.y > (playerY + 0.54F))
-                playAnimation.RightUp();
-
-            if (mousePos.x > (playerX + 0.54F) && mousePos.y < (playerY - 0.54F))
-                playAnimation.RightDown();
-
-            if (mousePos.x < (playerX - 0.54F) && mousePos.y > (playerY + 0.54F))
-                playAnimation.LeftUp();
-
-            if (mousePos.x < (playerX - 0.54F) && mousePos.y < (playerY - 0.54F))
-                playAnimation.LeftDown();
+            //Down
+            if (mousePos.x < (playerX + 0.13F) && mousePos.x > (playerX - 0.13F) && mousePos.y < playerY)
+                anim.SetFloat("YSpeed", -1);
+            //Up
+            if (mousePos.x < (playerX + 0.13F) && mousePos.x > (playerX - 0.13F) && mousePos.y > playerY)
+                anim.SetFloat("YSpeed", 1);
+            //Right
+            if (mousePos.y < (playerY + 0.13F) && mousePos.y > (playerY - 0.09F) && mousePos.x < playerX)
+                anim.SetFloat("XSpeed", -1);
+            //Right
+            if (mousePos.y < (playerY + 0.13F) && mousePos.y > (playerY - 0.09F) && mousePos.x > playerX)
+                anim.SetFloat("XSpeed", 1);
             #endregion
         }
+        anim.SetBool("IsMoving", moving);
 
         PlayerRun(disableMovement);
     }
