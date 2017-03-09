@@ -6,7 +6,7 @@ public class SpecialAbilities : MonoBehaviour {
 
 
 
-    public float speed = 5;
+    public float range = 5;
     private bool dash = true;
     private PlayerController playerController;
 
@@ -32,45 +32,46 @@ public class SpecialAbilities : MonoBehaviour {
         float playerX = playerController.transform.position.x;
         float playerY = playerController.transform.position.y;
 
+        // new Vector2(Up | Down, Left | Right)
         //call PlayerAnimation.Dash(); for the Animation
         if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY)
         {
-            rg2.velocity = new Vector2(0, -1 * speed);
+            rg2.velocity = new Vector2(0, -1 * range);
             // Call Animation Here
         }
         else if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y > playerY)
         {
-            rg2.velocity = new Vector2(0, 1 * speed);
+            rg2.velocity = new Vector2(0, 1 * range);
             // Call Animation Here
         }
         else if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x < playerX)
         {
-            rg2.velocity = new Vector2(-1 * speed, 0);
+            rg2.velocity = new Vector2(-1 * range, 0);
             // Call Animation Here
         }
         else if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x > playerX)
         {
-            rg2.velocity = new Vector2(1 * speed, 0);
+            rg2.velocity = new Vector2(1 * range, 0);
             // Call Animation Here
         }
         else if (mousePos.x > (playerX + 0.54F) && mousePos.y > (playerY + 0.54F))
         {
-            rg2.velocity = new Vector2(1 * (speed - 5), 1 * (speed - 5));
+            rg2.velocity = new Vector2(1 * (range - 5), 1 * (range - 5));
             // Call Animation Here
         }
         else if (mousePos.x > (playerX + 0.54F) && mousePos.y < (playerY - 0.54F))
         {
-            rg2.velocity = new Vector2(1 * (speed - 5), -1 * (speed - 5));
+            rg2.velocity = new Vector2(1 * (range - 5), -1 * (range - 5));
             // Call Animation Here
         }
         else if (mousePos.x < (playerX - 0.54F) && mousePos.y > (playerY + 0.54F))
         {
-            rg2.velocity = new Vector2(-1 * (speed - 5), 1 * (speed - 5));
+            rg2.velocity = new Vector2(-1 * (range - 5), 1 * (range - 5));
             // Call Animation Here
         }
         else if (mousePos.x < (playerX - 0.54F) && mousePos.y < (playerY - 0.54F))
         {
-            rg2.velocity = new Vector2(-1 * (speed - 5), -1 * (speed - 5));
+            rg2.velocity = new Vector2(-1 * (range - 5), -1 * (range - 5));
             // Call Animation Here
         }
 

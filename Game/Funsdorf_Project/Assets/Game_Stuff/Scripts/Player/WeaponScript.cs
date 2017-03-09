@@ -5,18 +5,33 @@ using System;
 
 public class WeaponScript : MonoBehaviour
 {
+    #region Inspector
+    [SerializeField]
+    private enum ArrowType
+    {
+        Single,
+        Burst,
+        Multi
+    };
+    [SerializeField]
+    private ArrowType arrowType;
+    [SerializeField]
+    private float arrowSpeed = 300;
+    [SerializeField]
+    private int arrowCooldown = 3;
+    [SerializeField]
+    private int rapidCooldown = 5;
+    [SerializeField]
+    private int MultiCooldown = 5;
+    [SerializeField]
+    private float spaceBewteenBulletsFirst = 0.1F;
+    [SerializeField]
+    private float spaceBewteenBulletsSecond = 0.2F;
+    [SerializeField]
+    #endregion
 
-    public enum ArrowType { Single, Burst, Multi };
-    // public GameObject bullet;
-    public ArrowType arrowType;
-
-    public float arrowSpeed = 300;
-    public int arrowCooldown = 3;
-    public int rapidCooldown = 5;
-    public int MultiCooldown = 5;
+    private GameObject arrow;
     private bool attack = true;
-    //private bool range = true;  Set this with the Charsheet on true or false
-    public GameObject arrow;
     private GameObject arrowClone;
     private List<GameObject> Allclones;
     private GameObject clones;
@@ -25,6 +40,7 @@ public class WeaponScript : MonoBehaviour
     int down = -1;
     int up = 1;
     int zero = 0;
+    //private bool range = true;  Set this with the Charsheet on true or false
 
     void Start()
     {
@@ -162,10 +178,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(zero, down * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y -1), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y - spaceBewteenBulletsFirst), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(zero, down * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y -2) , Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y - spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(zero, down * arrowSpeed));
             }
             else if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y > playerY) //UP
@@ -173,10 +189,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(zero, up * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y + 1), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y + spaceBewteenBulletsFirst), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, up * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y + 2), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x, transform.position.y + spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, up * arrowSpeed));
             }
             else if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x < playerX) //LEFT
@@ -184,10 +200,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, zero));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - 1, transform.position.y), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsFirst, transform.position.y), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, zero));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - 2, transform.position.y), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsSecond, transform.position.y), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, zero));
             }
             else if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x > playerX) //RIGHT
@@ -195,10 +211,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, zero));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + 1, transform.position.y), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + spaceBewteenBulletsFirst, transform.position.y), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, zero));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + 2, transform.position.y), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + spaceBewteenBulletsSecond, transform.position.y), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, zero));
             }
             else if (mousePos.x > (playerX + 0.54F) && mousePos.y > (playerY + 0.54F))//UPRIGHT
@@ -206,10 +222,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, up * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + 1, transform.position.y + 1), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + spaceBewteenBulletsFirst, transform.position.y + spaceBewteenBulletsFirst), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, up * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + 2, transform.position.y  + 2), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + spaceBewteenBulletsSecond, transform.position.y + spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, up * arrowSpeed));
             }
             else if (mousePos.x > (playerX + 0.54F) && mousePos.y < (playerY - 0.54F))//DOWNRIGHT
@@ -217,10 +233,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, down * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + 1, transform.position.y - 1 ), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + spaceBewteenBulletsFirst, transform.position.y - spaceBewteenBulletsFirst), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, down * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + 2, transform.position.y - 2), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x + spaceBewteenBulletsSecond, transform.position.y - spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(right * arrowSpeed, down * arrowSpeed));
             }
             else if (mousePos.x < (playerX - 0.54F) && mousePos.y > (playerY + 0.54F)) //LEFTUP
@@ -228,10 +244,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, up * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - 1, transform.position.y + 1), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsFirst, transform.position.y + spaceBewteenBulletsFirst), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, up * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - 2, transform.position.y + 2), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsSecond, transform.position.y + spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, up * arrowSpeed));
             }
             else if (mousePos.x < (playerX - 0.54F) && mousePos.y < (playerY - 0.54F)) //DOWNLEFT
@@ -239,10 +255,10 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, down * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - 1, transform.position.y - 1), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsFirst, transform.position.y - spaceBewteenBulletsFirst), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, down * arrowSpeed));
 
-                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - 2, transform.position.y - 2), Quaternion.identity);
+                arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsSecond, transform.position.y - spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, down * arrowSpeed));
             }
         }
@@ -320,9 +336,11 @@ public class WeaponScript : MonoBehaviour
         attack = true;
         for (int i = 0; i < Allclones.Count; i++)
         {
-            if(Allclones[i] != null)
-             Destroy(Allclones[i]);
+            if (Allclones[i] != null)
+                Destroy(Allclones[i]);
         }
+        if (MyConst.zaim)
+            Debug.Log("Bullets is Destroyed");
     }
 
     IEnumerator ShootAgainTimer(int waitTime)
@@ -332,7 +350,7 @@ public class WeaponScript : MonoBehaviour
 
     }
     void ShootAgin()
-    { 
+    {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         float playerX = gameObject.transform.position.x;

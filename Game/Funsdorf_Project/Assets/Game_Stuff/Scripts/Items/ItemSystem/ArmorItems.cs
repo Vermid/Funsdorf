@@ -102,7 +102,11 @@ using System.Collections;
 
         SetItemName(namePrefix);
 
-        Debug.Log("Random Armor successfully created!");
+        if (MyConst.almir)
+        {
+            Debug.Log(namePrefix);
+            Debug.Log("Random Armor successfully created!");
+        }
         return this;
     }
     //END OF CREATE FUNCTIONS//

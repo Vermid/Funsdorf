@@ -33,10 +33,8 @@ public class Coin_Spawn : MonoBehaviour
         int i = 0;
 
         howMuch = Mathf.RoundToInt(Random.Range(minCoins, maxCoins));
-        int tryout = 10;
-        while (i < tryout)
+        while (i < howMuch)
         {
-            int waitTime = Random.Range(0, 3);
             int x = Random.Range(-5, 5);
             int y = Random.Range(-5, 5);
 
@@ -44,9 +42,7 @@ public class Coin_Spawn : MonoBehaviour
             coinClone.transform.parent = parent.transform;
             coinClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(x, y) * Random.Range(0, moveSpeed));
             i++;
-
         }
-
         //instant Spawn
         //Instantiate(spawn, new Vector2(Random.Range(transform.position.x + 2 * 2, transform.position.x - 2 * 2), 
         //    Random.Range(transform.position.y + 2 * 2, transform.position.y - 2 * 2)), Quaternion.identity);

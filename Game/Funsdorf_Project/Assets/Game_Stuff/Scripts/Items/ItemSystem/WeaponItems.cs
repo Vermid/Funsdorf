@@ -39,6 +39,11 @@ public class WeaponItems : ItemStructure
     //END OF CONSTRUCTORS//
 
     //CREATE FUNCTIONS//
+    /// <summary>
+    /// what is this?
+    /// </summary>
+    /// <param name="nEntityLevel"></param>
+    /// <returns></returns>
     public WeaponItems CreateRandomWeapon(int nEntityLevel)
     {
         int nRNGPercentage;
@@ -123,7 +128,11 @@ public class WeaponItems : ItemStructure
             namePrefix = namePrefix + " Shield";
         }
 
-        Debug.Log("Random Weapon successfully created!");
+        if (MyConst.almir)
+        {
+            Debug.Log(namePrefix);
+            Debug.Log("Random Weapon successfully created!");
+        }
         SetItemName(namePrefix);
 
         return this;
@@ -135,17 +144,21 @@ public class WeaponItems : ItemStructure
     {
         weaponType = nWeaponType;
     }
-    int GetWeaponType() { return weaponType; }
+    //documentary
+    int GetWeaponType()
+    { return weaponType; }
     void SetWeaponAttackspeed(float fWeaponAttackspeed)
     {
         weaponAttackspeed = fWeaponAttackspeed;
     }
-    float GetWeaponAttackspeed() { return weaponAttackspeed; }
+    float GetWeaponAttackspeed()
+    { return weaponAttackspeed; }
     void SetWeaponDamage(float fWeaponDamage)
     {
         weaponDamage = fWeaponDamage;
     }
-    float GetWeaponDamage() { return weaponDamage; }
+    float GetWeaponDamage()
+    { return weaponDamage; }
     //END OF GET AND SET METHODS//
 }
 
