@@ -29,7 +29,11 @@ public class KI_HealthController : MonoBehaviour
     }
     void Cooldown()
     {
-        GameObject itemBag = (GameObject)Instantiate(spawn, transform.position, Quaternion.identity);
+        int i = Random.Range(0, 101);
+        if (i > 75)
+        {
+            GameObject itemBag = (GameObject)Instantiate(spawn, transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 

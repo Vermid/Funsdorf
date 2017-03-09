@@ -99,6 +99,8 @@ public class HealthController : MonoBehaviour
             playerController.enabled = false;
             lifePoints = startLifePoints;
         }
+        if (MyConst.zaim)
+            Debug.Log("DMG Done");
     }
 
     public void PotionControl(int pot)

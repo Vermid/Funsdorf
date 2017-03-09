@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InventorySystem : MonoBehaviour 
+public class InventorySystem : MonoBehaviour
 {
-    public  ArrayList inventorySpace;
+    public ArrayList inventorySpace;
     private bool isActiveBag;
 
     void Start()
@@ -12,28 +12,25 @@ public class InventorySystem : MonoBehaviour
         inventorySpace = new ArrayList();
     }
 
-    void Update()
-    {
-    }
-
-
     public void AddArmorToInventory(ArmorItems randomdrop)
     {
         inventorySpace.Add(new ArmorItems(randomdrop));
-        Debug.Log("Random Item has successfully been added!");
+        if (MyConst.almir)
+            Debug.Log("Random Item has successfully been added!");
     }
 
     public void AddWeaponToInventory(WeaponItems randomdrop)
     {
         inventorySpace.Add(new WeaponItems(randomdrop));
-        Debug.Log("Random Item has successfully been added!");
-        
+        if (MyConst.almir)
+            Debug.Log("Random Item has successfully been added!");
+
     }
 
     public ArrayList GetInventory()
     {
         return inventorySpace;
     }
-  
+
 }
 

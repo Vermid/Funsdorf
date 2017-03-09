@@ -19,7 +19,7 @@ public class Coin : MonoBehaviour
         Invoke(MyConst.Cooldown, destroyTimer);
 
         int waitTime = Random.Range(0, 3);
-        StartCoroutine(WaittoFrezze(gameObject, 1));
+        StartCoroutine(WaittoFrezze(gameObject, waitTime));
 
     }
 

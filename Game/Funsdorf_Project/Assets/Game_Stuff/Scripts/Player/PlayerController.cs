@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
+    //CodeReview use this Input
     void PlayerAttack()
     {
         //Insert Attack Prime,Special 1 and Special 2
@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("XSpeed", rgb2.velocity.x);
         #endregion
 
+
         if (moveHorizontal != 0 || moveVertical != 0)
         {
             moving = true;
@@ -132,30 +133,34 @@ public class PlayerController : MonoBehaviour
             float playerY = gameObject.transform.position.y;
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
-
             //need this for Fire Rain
             //gameObject.transform.position = mousePos;
             //targetRotation = Quaternion.LookRotation(mousePos);
             // transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 
-            //Debug.DrawRay(transform.position, Vector3.forward, Color.red);
-
             //Down
-            if (mousePos.x < (playerX + 0.13F) && mousePos.x > (playerX - 0.13F) && mousePos.y < playerY)
+            if (mousePos.x < (playerX + 0.33F) && mousePos.x > (playerX - 0.33F) && mousePos.y < playerY)
                 anim.SetFloat("YSpeed", -1);
+
             //Up
-            if (mousePos.x < (playerX + 0.13F) && mousePos.x > (playerX - 0.13F) && mousePos.y > playerY)
+            if (mousePos.x < (playerX + 0.33F) && mousePos.x > (playerX - 0.33F) && mousePos.y > playerY)
                 anim.SetFloat("YSpeed", 1);
+
             //Right
-            if (mousePos.y < (playerY + 0.13F) && mousePos.y > (playerY - 0.09F) && mousePos.x < playerX)
+            if (mousePos.y < (playerY + 0.33F) && mousePos.y > (playerY - 0.29F) && mousePos.x < playerX)
                 anim.SetFloat("XSpeed", -1);
+
             //Right
-            if (mousePos.y < (playerY + 0.13F) && mousePos.y > (playerY - 0.09F) && mousePos.x > playerX)
+            if (mousePos.y < (playerY + 0.33F) && mousePos.y > (playerY - 0.29F) && mousePos.x > playerX)
                 anim.SetFloat("XSpeed", 1);
+
             #endregion
         }
-        anim.SetBool("IsMoving", moving);
 
+       // if(rgb2.velocity.y == 0)
+        //   anim.SetFloat("YSpeed", -1);
+
+        anim.SetBool("IsMoving", moving);
         PlayerRun(disableMovement);
     }
 
@@ -266,6 +271,7 @@ public class PlayerController : MonoBehaviour
         globalCoolDown = !globalCoolDown;
     }
 
+    //Code Review use this for TextGUI
     void GuiText()
     {
         staminaText.text = "Stamina " + stamina.ToString();

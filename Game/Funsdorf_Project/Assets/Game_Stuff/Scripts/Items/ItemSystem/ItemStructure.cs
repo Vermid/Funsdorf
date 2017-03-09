@@ -12,6 +12,7 @@ public class ItemStructure
     //GET AND SET METHODS//
     ///////////////////////
 
+    //basis Class Items
     public void SetItemName(string sItemName)
     {
         itemName = sItemName;

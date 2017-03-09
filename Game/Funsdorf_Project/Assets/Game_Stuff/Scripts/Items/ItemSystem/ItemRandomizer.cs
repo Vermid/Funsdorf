@@ -21,8 +21,9 @@ class ItemRandomizer : MonoBehaviour
         if (coll.gameObject.tag == MyConst.Player)
         {
             RandomItemDropChance(10);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        
     }
 
     //calculation for the Dropchance of itemtype
