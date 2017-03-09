@@ -8,7 +8,8 @@ Florian	->Enemy Controller
 Almir	->Item Script
 Lukas	->Main Story
 Bernd	->Level Design
-Robert	->Textures and Sound
+Robert	->PlayerModel
+Moritz  ->World, Enemy's
 Zaim	->Player Controller
 
 If you add a new script make a Log.File in your Folder with the name of the script (write down what you did step by step)
