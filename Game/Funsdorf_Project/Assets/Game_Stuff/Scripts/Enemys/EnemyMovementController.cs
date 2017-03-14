@@ -161,7 +161,7 @@ public class EnemyMovementController : MonoBehaviour {
 
     /*****************************************************************************************************************************************/
 
-    void StopME()
+    public void StopME()
     {
         myRigidbody.velocity = Vector2.zero;
     }

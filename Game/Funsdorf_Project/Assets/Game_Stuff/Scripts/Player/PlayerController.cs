@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float runSpeed = 5;
 
+    public Text weapontypeText;
+
+
     private int coin = 0;
     private bool running = true;
     private bool canWeSprint = true;
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public Text staminaText;
     private SpecialAbilities specialAbilities;
     private Animator anim;
+    private int weaponType;
 
     void Start()
     {
@@ -60,6 +64,7 @@ public class PlayerController : MonoBehaviour
         maxMovementSpeed = startMovementSpeed;
         diagonalRunSpeed = runSpeed - 1.5F;
         maxStamina = stamina;
+        weaponType = Random.Range(0, 3);
     }
 
     void FixedUpdate()
@@ -92,13 +97,13 @@ public class PlayerController : MonoBehaviour
     void PlayerAttack()
     {
         //Insert Attack Prime,Special 1 and Special 2
-        if (Input.GetButton("Attack"))
+        if (Input.GetButtonDown("Attack"))
         {
             //playAnimation.AttackNow();
-            weaponScript.Attack();
+            weaponScript.Attack(weaponType);
         }
         //Swing melee weapon and shoot with bow or Staff
-        if (Input.GetButton("Special1")) //special 1 == SpaceBar
+        if (Input.GetButtonDown("Special1")) //special 1 == SpaceBar
             specialAbilities.SpAbilities();
 
         //if (Input.GetButton("Special2"))      //special 2 == right mous button
@@ -276,6 +281,14 @@ public class PlayerController : MonoBehaviour
     {
         staminaText.text = "Stamina " + stamina.ToString();
         coinText.text = "Coin " + coin.ToString();
+
+        if (weaponType == 0)
+            weapontypeText.text = "Single Shoot";
+        if (weaponType == 1)
+            weapontypeText.text = "Multi Shoot";
+        if (weaponType == 2)
+            weapontypeText.text = "Burst Fire";
+
     }
 
 }

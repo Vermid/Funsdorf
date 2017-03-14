@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
 
 public class WeaponScript : MonoBehaviour
 {
@@ -28,9 +29,11 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     private float spaceBewteenBulletsSecond = 0.2F;
     [SerializeField]
+    private GameObject arrow;
+
     #endregion
 
-    private GameObject arrow;
+
     private bool attack = true;
     private GameObject arrowClone;
     private List<GameObject> Allclones;
@@ -45,19 +48,20 @@ public class WeaponScript : MonoBehaviour
     void Start()
     {
         clones = GameObject.FindGameObjectWithTag(MyConst.Clones);
-
+        Allclones = new List<GameObject>();
     }
 
-    public void Attack()
+    public void Attack(int i)
     {
-        if (arrowType == ArrowType.Single)
+        //   if (arrowType == ArrowType.Single)
+        if (i == 0)
             AttackSingle();
-
-        if (arrowType == ArrowType.Multi)
-            AttackMulti();
-
-        if (arrowType == ArrowType.Burst)
-            AttackBurst();
+        //  if (arrowType == ArrowType.Multi)
+        if (i == 1)
+           AttackMulti();
+        //   if (arrowType == ArrowType.Burst)
+        if (i == 2)
+          AttackBurst();
     }
 
     public void AttackMulti()
@@ -67,7 +71,7 @@ public class WeaponScript : MonoBehaviour
         float playerX = gameObject.transform.position.x;
         float playerY = gameObject.transform.position.y;
 
-        if (attack)
+        if (attack && Allclones.Count < 1)
         {
             //call PlayerAnimation.Dash(); for the Animation
             if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY) //DOWN
@@ -171,7 +175,7 @@ public class WeaponScript : MonoBehaviour
         float playerX = gameObject.transform.position.x;
         float playerY = gameObject.transform.position.y;
 
-        if (attack)
+        if (attack && Allclones.Count <= 0)
         {
             if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY) //DOWN
             {
@@ -261,9 +265,9 @@ public class WeaponScript : MonoBehaviour
                 arrowClone = (GameObject)Instantiate(arrow, new Vector2(transform.position.x - spaceBewteenBulletsSecond, transform.position.y - spaceBewteenBulletsSecond), Quaternion.identity);
                 arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(left * arrowSpeed, down * arrowSpeed));
             }
+            StartCoroutine(Wait(arrowCooldown + rapidCooldown));
+            attack = false;
         }
-        StartCoroutine(Wait(arrowCooldown + rapidCooldown));
-        attack = false;
     }
 
     public void AttackSingle()
@@ -273,7 +277,7 @@ public class WeaponScript : MonoBehaviour
         float playerX = gameObject.transform.position.x;
         float playerY = gameObject.transform.position.y;
 
-        if (attack)
+        if (attack && Allclones.Count < 2)
         {
             //call PlayerAnimation.Dash(); for the Animation
             if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY)
@@ -332,70 +336,12 @@ public class WeaponScript : MonoBehaviour
         }
 
         yield return new WaitForSeconds(waitTime);
-
         attack = true;
-        for (int i = 0; i < Allclones.Count; i++)
-        {
-            if (Allclones[i] != null)
-                Destroy(Allclones[i]);
-        }
-        if (MyConst.zaim)
-            Debug.Log("Bullets is Destroyed");
+        Allclones.Clear();
     }
 
-    IEnumerator ShootAgainTimer(int waitTime)
+    void Update()
     {
-        yield return new WaitForSeconds(waitTime);
-        ShootAgin();
-
-    }
-    void ShootAgin()
-    {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        float playerX = gameObject.transform.position.x;
-        float playerY = gameObject.transform.position.y;
-
-        //call PlayerAnimation.Dash(); for the Animation
-        if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y < playerY)
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -1 * arrowSpeed));
-        }
-        else if (mousePos.x < (playerX + 0.53F) && mousePos.x > (playerX - 0.53F) && mousePos.y > playerY)
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1 * arrowSpeed));
-        }
-        else if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x < playerX)
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1 * arrowSpeed, 0));
-        }
-        else if (mousePos.y < (playerY + 0.53F) && mousePos.y > (playerY - 0.49F) && mousePos.x > playerX)
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(1 * arrowSpeed, 0));
-        }
-        else if (mousePos.x > (playerX + 0.54F) && mousePos.y > (playerY + 0.54F))
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(1 * arrowSpeed, 1 * arrowSpeed));
-        }
-        else if (mousePos.x > (playerX + 0.54F) && mousePos.y < (playerY - 0.54F))
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(1 * arrowSpeed, -1 * arrowSpeed));
-        }
-        else if (mousePos.x < (playerX - 0.54F) && mousePos.y > (playerY + 0.54F))
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1 * arrowSpeed, 1 * arrowSpeed));
-        }
-        else if (mousePos.x < (playerX - 0.54F) && mousePos.y < (playerY - 0.54F))
-        {
-            arrowClone = (GameObject)Instantiate(arrow, transform.position, Quaternion.identity);
-            arrowClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1 * arrowSpeed, -1 * arrowSpeed));
-        }
+        Debug.Log(Allclones.Count);
     }
 }

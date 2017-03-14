@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 
 public class ItemStructure
 {
     private string itemName;    //Name vom Item
     private int itemRarity;  //Seltenheit von 0 bis 5
     private int itemType;  //ItemType 0-3
-
     ///////////////////////
     //GET AND SET METHODS//
     ///////////////////////
-
     //basis Class Items
     public void SetItemName(string sItemName)
     {
@@ -29,4 +27,3 @@ public class ItemStructure
     }
     public int GetItemType() { return itemType; }
 }
-

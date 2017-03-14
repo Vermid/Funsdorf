@@ -23,6 +23,6 @@ public class MyConst
 
     //Debug.Log
     public static bool zaim = false;
-    public static bool almir = true;
+    public static bool almir = false;
     public static bool florian = false;
 }

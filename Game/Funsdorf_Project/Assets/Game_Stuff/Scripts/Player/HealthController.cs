@@ -27,11 +27,14 @@ public class HealthController : MonoBehaviour
     public Text healthText;
     public Text orbsText;
     public Text potionText;
+    [SerializeField]
+    private Canvas deatchCanvas;
 
     void Start()
     {
         GetStartValues();
         playerController = transform.parent.gameObject.GetComponent<PlayerController>();
+        deatchCanvas.gameObject.SetActive(false);
     }
 
     void FixedUpdate()
@@ -81,16 +84,16 @@ public class HealthController : MonoBehaviour
             if (!dot)
                 damageAble = false;
             Dying(damage);
-            Invoke(MyConst.GetDamage, 0.5F);
+            Invoke(MyConst.GetDamage, 1);
 
             if (health <= 0)
             {
                 playerController.enabled = false;
                 lifePoints--;
-                health = startHealth;
+                deatchCanvas.gameObject.SetActive(true);
 
                 //where to spawn
-                Invoke(MyConst.SetSpawn, 2);
+                Invoke(MyConst.SetSpawn, 1);
             }
         }
         if (lifePoints == 0)
@@ -131,12 +134,24 @@ public class HealthController : MonoBehaviour
     void Dying(float damage)
     {
         health -= damage;
+        if (health <= 0)
+        {
+            playerController.enabled = false;
+            lifePoints--;
+            deatchCanvas.gameObject.SetActive(true);
+
+            //where to spawn
+            Invoke(MyConst.SetSpawn, 1);
+        }
+
     }
 
     void SetSpawn()
     {
         playerController.enabled = true;
+        deatchCanvas.gameObject.SetActive(false);
         playerController.PlayerSpawn();
+        health = startHealth;
     }
 
     void GetDamage()
