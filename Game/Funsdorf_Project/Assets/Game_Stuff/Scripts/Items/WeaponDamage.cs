@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponDamage : MonoBehaviour
 {
     public float damage = 1;
+    public int waitTime = 3;
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -23,4 +24,16 @@ public class WeaponDamage : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    void Start()
+    {
+        StartCoroutine(DestroyProjektil(waitTime));
+    }
+
+    IEnumerator DestroyProjektil(int time)
+    {
+        yield return new WaitForSeconds(time);
+                Destroy(gameObject);
+    }
+
+
 }

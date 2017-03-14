@@ -6,27 +6,23 @@ public class KI_HealthController : MonoBehaviour
     public float health = 2;
     private bool dead = false;
     public GameObject spawn;
+    private EnemyMovementController enemyMovementController;
 
+    void Start()
+    {
+        enemyMovementController = gameObject.GetComponent<EnemyMovementController>();
+    }
     public void Damage(float dmg)
     {
         health -= dmg;
         if (health <= 0)
         {
             dead = true;
+            enemyMovementController.StopME();
             Invoke(MyConst.Cooldown, 1);
         }
     }
 
-    public void KI_Damage(float dmg)
-    {
-        health -= dmg;
-
-        if (health <= 0)
-        {
-            dead = true;
-            Invoke(MyConst.Cooldown, 1);
-        }
-    }
     void Cooldown()
     {
         int i = Random.Range(0, 101);
